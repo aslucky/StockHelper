@@ -49,6 +49,23 @@
        </widget>
       </item>
       <item>
+       <widget class="QDateEdit" name="dateEdit_pickup">
+        <property name="dateTime">
+         <datetime>
+          <hour>0</hour>
+          <minute>0</minute>
+          <second>0</second>
+          <year>2016</year>
+          <month>1</month>
+          <day>1</day>
+         </datetime>
+        </property>
+        <property name="displayFormat">
+         <string>yyyy/MM/dd</string>
+        </property>
+       </widget>
+      </item>
+      <item>
        <widget class="QCheckBox" name="checkBox_useTDXdata">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
@@ -69,9 +86,16 @@
        </widget>
       </item>
       <item>
-       <widget class="QCheckBox" name="checkBox_macdDiverse">
+       <widget class="QCheckBox" name="checkBox_macdDivergence">
         <property name="text">
          <string>MACD底背离</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="checkBox_savePickup">
+        <property name="text">
+         <string>保存选股结果</string>
         </property>
        </widget>
       </item>
@@ -86,6 +110,13 @@
        <font>
         <pointsize>10</pointsize>
        </font>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QProgressBar" name="progressBar">
+      <property name="value">
+       <number>24</number>
       </property>
      </widget>
     </item>
@@ -172,40 +203,8 @@
    <slot>doUseTDX()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>210</x>
-     <y>30</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>216</x>
-     <y>177</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>checkBox_macdCross</sender>
-   <signal>stateChanged(int)</signal>
-   <receiver>MainWindow</receiver>
-   <slot>doMacdCross()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>301</x>
-     <y>30</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>216</x>
-     <y>177</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>checkBox_macdDiverse</sender>
-   <signal>stateChanged(int)</signal>
-   <receiver>MainWindow</receiver>
-   <slot>doMacdDiverse()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>387</x>
-     <y>30</y>
+     <x>384</x>
+     <y>40</y>
     </hint>
     <hint type="destinationlabel">
      <x>216</x>
@@ -220,5 +219,6 @@
   <slot>doUseTDX()</slot>
   <slot>doMacdCross()</slot>
   <slot>doMacdDiverse()</slot>
+  <slot>doPickupSave()</slot>
  </slots>
 </ui>

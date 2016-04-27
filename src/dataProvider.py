@@ -5,17 +5,20 @@ import datetime
 import tushare as ts
 import pandas as pd
 
+from src.utils import getLastTradeDate
+
 
 class data_provider():
     """
     对外提供数据
     dataPath：本地数据路径
     """
+
     def __init__(self, app_path):
         self.appPath = app_path
         self.errString = ''
 
-    def getCodeList(self, dataPath = None, dataType = None):
+    def getCodeList(self, dataPath=None, dataType=None):
         """
         获取股票代码列表
         :param tdxPath: not None 遍历目录获取代码， is None 使用tushare获取当前交易日的股票列表
@@ -31,21 +34,22 @@ class data_provider():
                         codeList.append(fn[0:-4])
                 return codeList
             else:
-                self.errString = '不支持的数据类型dataType:%d' %dataType
+                self.errString = '不支持的数据类型dataType:%d' % dataType
                 return []
         else:
-            if not os.path.isfile(self.appPath + '/todayDatas.csv'):
+            if not os.path.isfile(self.appPath + '/' + getLastTradeDate() + '_Datas.csv'):
                 codeList = ts.get_today_all()
                 if codeList is None:
                     print 'None data fetched'
                     return []
                 # save to file don't need fetch every time, too slow
-                codeList.to_csv(self.appPath + '/todayDatas.csv', encoding='utf8')
+                codeList.to_csv(self.appPath + '/' + getLastTradeDate() + '_Datas.csv', encoding='utf8')
             else:
-                codeList = pd.read_csv(self.appPath + '/todayDatas.csv', encoding='utf8', index_col=0, dtype={'code': str})
+                codeList = pd.read_csv(self.appPath + '/' + getLastTradeDate() + '_Datas.csv', encoding='utf8',
+                                       index_col=0, dtype={'code': str})
             return codeList['code']
 
-    def get_data_by_count(self, stock_code, trade_date, count, kline_type, dataPath = None, dataType = None):
+    def get_data_by_count(self, stock_code, trade_date, count, kline_type, dataPath=None, dataType=None):
         """
         获取到指定日期的count根k线数据，通达信目前只支持日线数据
         :param stock_code:
@@ -60,7 +64,8 @@ class data_provider():
         holidays = (count / 5) * 3
         startDate = trade_date + datetime.timedelta(days=-(count + holidays))
         try:
-            spy = ts.get_hist_data(stock_code, start=startDate.strftime("%Y-%m-%d"), end=trade_date.strftime("%Y-%m-%d"),
+            spy = ts.get_hist_data(stock_code, start=startDate.strftime("%Y-%m-%d"),
+                                   end=trade_date.strftime("%Y-%m-%d"),
                                    ktype=kline_type)
             while len(spy) < count:
                 # 新股等实际交易天数少于指定数量的情况
@@ -68,7 +73,8 @@ class data_provider():
                 #     break
                 holidays *= 2
                 startDate = trade_date + datetime.timedelta(days=-(count + holidays))
-                spy = ts.get_hist_data(stock_code, start=startDate.strftime("%Y-%m-%d"), end=trade_date.strftime("%Y-%m-%d"),
+                spy = ts.get_hist_data(stock_code, start=startDate.strftime("%Y-%m-%d"),
+                                       end=trade_date.strftime("%Y-%m-%d"),
                                        ktype=kline_type)
         except (RuntimeError, TypeError, NameError, IOError, ValueError):
             return []

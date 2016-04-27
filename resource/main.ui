@@ -144,6 +144,11 @@
    <property name="text">
     <string>设置</string>
    </property>
+   <property name="font">
+    <font>
+     <pointsize>9</pointsize>
+    </font>
+   </property>
   </action>
  </widget>
  <resources/>

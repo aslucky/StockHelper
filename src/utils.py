@@ -6,8 +6,21 @@ import sys
 import tushare as ts
 
 
+def getLastTradeDate():
+    last_trade_date = datetime.datetime.today()
+    if int(last_trade_date.strftime("%w")) == 0:
+        # sunday
+        last_trade_date = last_trade_date + datetime.timedelta(days=-2)
+    elif int(last_trade_date.strftime("%w")) == 6:
+        # saturday
+        last_trade_date = last_trade_date + datetime.timedelta(days=-1)
+    return last_trade_date.strftime("%Y-%m-%d")
+
+
 # 获取脚本文件的当前路径
 def cur_file_path():
+    # appPath = QtCore.QCoreApplication.applicationDirPath()
+    # self.appPath = os.path.split(os.path.realpath(__file__))[0]
     # 获取脚本路径
     path = sys.path[0]
     # 判断为脚本文件还是py2exe编译后的文件，如果是脚本文件，则返回的是脚本的目录，

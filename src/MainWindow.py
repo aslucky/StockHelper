@@ -1,8 +1,8 @@
 # coding:utf8
 import os
+import random
 import sys
 import json
-
 import time
 from PyQt4 import QtGui, QtCore, uic
 from PyQt4.QtCore import QDate
@@ -11,34 +11,37 @@ from src.strategy import strategy
 from utils import cur_file_path
 from dataProvider import data_provider
 
+macdcross = 1
+macdDivergence = 2
+
 
 # Subclassing QObject and using moveToThread
-class workerThread(QtCore.QObject):
-    finished = QtCore.pyqtSignal()
+class workerThread(QtCore.QThread):
+    def __init__(self, tradeDate, codeList, strategy, parent=None):
+        self.tradeDate = tradeDate
+        self.codeList = codeList
+        self.strategy = strategy
+        self.parent = parent
+        super(workerThread, self).__init__(parent)
 
-    def running(self):
-        count = 0
-        while count < 5:
-            time.sleep(1)
-            print "Increasing"
-            count += 1
-        self.finished.emit()
-
-
-# Using a QRunnable
-# http://qt-project.org/doc/latest/qthreadpool.html
-# Note that a QRunnable isn't a subclass of QObject and therefore does
-# not provide signals and slots.
-class Runnable(QtCore.QRunnable):
     def run(self):
-        count = 0
-        app = QtCore.QCoreApplication.instance()
-        while count < 5:
-            print "Increasing"
-            time.sleep(1)
-            count += 1
-        app.quit()
+        pickupCode = []
+        # apply strategy
+        step = 1
+        filterMacdCross = self.parent.checkBox_macdCross.isChecked()
+        for code in self.codeList:
+            self.emit(QtCore.SIGNAL('progress'), step)
+            step += 1
+            klines = self.parent.dataProvider.get_data_by_count(code, self.tradeDate, 50, 'D')
+            # print code + ' %d ' % len(klines)
+            if len(klines) < 35:
+                # 股票交易天数不足
+                continue
+            # pandas在线程里面有问题，\pandas\core\format.py:2087: RuntimeWarning: invalid value encountered in greater  has_large_values = (abs_vals > 1e8).any()
+            if filterMacdCross:
+                self.emit(QtCore.SIGNAL('strategy'), macdcross, code, klines)
 
+        self.emit(QtCore.SIGNAL('select finished'))
 
 
 class MainWindow(QtGui.QMainWindow):
@@ -49,26 +52,25 @@ class MainWindow(QtGui.QMainWindow):
         self.setWindowIcon(QtGui.QIcon('../resource/app.png'))
         self.configData = {}
         self.appPath = cur_file_path()
-        self.ui.progressBar.hide()
+        self.progressBar.hide()
+        self.progressBar.setTextVisible(True)
+        self.codePickup = []
+
         configPath = self.appPath + '/config.json'
         if os.path.isfile(configPath):
             with open(configPath, 'r') as f:
                 self.configData = json.load(f)
-                print type(self.configData)
+                # print type(self.configData)
                 # self.configData = eval(json.load(f))
-        if self.configData.has_key('useTdx') and self.configData['useTdx'] is 1:
+        if 'useTdx' in self.configData and self.configData['useTdx'] is 1:
             self.ui.checkBox_useTDXdata.toggle()
-        if self.configData.has_key('macdCross') and self.configData['macdCross'] is 1:
+        if 'macdCross' in self.configData and self.configData['macdCross'] is 1:
             self.ui.checkBox_macdCross.toggle()
         if self.configData.has_key('macdDivergence') and self.configData['macdDivergence'] is 1:
             self.ui.checkBox_macdDivergence.toggle()
 
         self.ui.dateEdit_pickup.setDate(QDate.currentDate())
-        # load config
-        # appPath = QtCore.QCoreApplication.applicationDirPath()
-        # self.appPath = os.path.split(os.path.realpath(__file__))[0]
-
-        if self.configData.has_key('tdxDataPath'):
+        if 'tdxDataPath' in self.configData:
             self.ui.lineEdit_tdxDataPath.setText(u'通达信数据路径: ' + self.configData['tdxDataPath'])
 
         # init data provider
@@ -95,15 +97,37 @@ class MainWindow(QtGui.QMainWindow):
             # self.setting.show()
 
     @QtCore.pyqtSlot()
+    def updateProgressBar(self, val):
+        self.progressBar.setValue(val)
+
+    @QtCore.pyqtSlot()
+    def doStrategy(self, type, code, klines):
+        if type == macdcross:
+            if self.strategy.macdCross(klines):
+                self.codePickup.append(code)
+                self.ptx_out.appendPlainText(code)
+        elif type == macdDivergence:
+            if self.strategy.macdDivergence(klines):
+                self.codePickup.append(code)
+                self.ptx_out.appendPlainText(code)
+        else:
+            QtGui.QMessageBox.Warning(self, "StockHelper", '未知策略', QtGui.QMessageBox.Ok)
+
+    @QtCore.pyqtSlot()
+    def selectFinished(self):
+        # save to YYYYMMDD_macdCross.scv
+        if self.ui.checkBox_savePickup.isChecked():
+            output = open(self.appPath + '/macdCross_' + self.tradeDate.strftime("%Y-%m-%d") + '.txt', 'w')
+            output.write(str(self.codePickup))
+            output.close()
+        QtGui.QMessageBox.Warning(self, "StockHelper", '操作完成', QtGui.QMessageBox.Ok)
+
+    @QtCore.pyqtSlot()
     def doSelect(self):
-        runnable = Runnable()
-        QtCore.QThreadPool.globalInstance().start(runnable)
-    
-        return 
         self.saveGUIConfig()
         codeList = []
         if self.ui.checkBox_useTDXdata.isChecked():
-            if not self.configData.has_key('tdxDataPath'):
+            if 'tdxDataPath' not in self.configData:
                 QtGui.QMessageBox.Warning(self, "StockHelper", '数据路径未设置', QtGui.QMessageBox.Ok)
                 return
             codeList = self.dataProvider.getCodeList(self.configData['tdxDataPath'], 0)
@@ -111,31 +135,24 @@ class MainWindow(QtGui.QMainWindow):
             codeList = self.dataProvider.getCodeList()
 
         trade_date = self.ui.dateEdit_pickup.dateTime().toPyDateTime()
+        self.progressBar.setRange(1, len(codeList))
+        self.progressBar.show()
 
-        self.objThread = QtCore.QThread()
-        worker = workerThread()
-        worker.moveToThread(self.objThread)
-        worker.finished.connect(self.objThread.quit)
-        self.objThread.started.connect(worker.running)
-        self.objThread.finished.connect(self.workDone)
-        self.objThread.start()
+        # filterMacdCross = self.checkBox_macdCross.isChecked()
+        # for code in codeList:
+        #     klines = self.dataProvider.get_data_by_count(code, trade_date, 35, 'D')
+        #     print code + ' %d '% len(klines)
+        #     if len(klines) < 35:
+        #         # 股票交易天数不足
+        #         continue
+        #     if filterMacdCross and self.strategy.macdCross(klines):
+        #         print code
 
-        return
-        pickupCode = []
-        # apply strategy
-        for code in codeList:
-            klines = self.dataProvider.get_data_by_count(code, trade_date, 35, 'D')
-            if len(klines) < 35:
-                # 股票交易天数不足
-                continue
-            if self.ui.checkBox_macdCross.isChecked() and self.strategy.macdCross(klines):
-                pickupCode.append(code)
-                self.ui.ptx_out.setPlainText(code)
-        # save to YYYYMMDD_macdCross.scv
-        if self.ui.checkBox_savePickup.isChecked():
-            output = open(self.appPath + '/macdCross_' + trade_date.strftime("%Y-%m-%d") + '.txt', 'w')
-            output.write(str(pickupCode))
-            output.close()
+        self.worker = workerThread(trade_date, codeList, self.strategy, self)
+        self.worker.start()
+        self.connect(self.worker, QtCore.SIGNAL('progress'), self.updateProgressBar)
+        self.connect(self.worker, QtCore.SIGNAL('strategy'), self.doStrategy)
+        self.connect(self.worker, QtCore.SIGNAL('select finished'), self.selectFinished)
 
     def saveGUIConfig(self):
         if self.ui.checkBox_useTDXdata.isChecked():

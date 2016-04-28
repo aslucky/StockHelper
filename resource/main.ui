@@ -137,7 +137,14 @@
     </property>
     <addaction name="action_Setting"/>
    </widget>
+   <widget class="QMenu" name="menu">
+    <property name="title">
+     <string>帮助</string>
+    </property>
+    <addaction name="action_about"/>
+   </widget>
    <addaction name="menuFile"/>
+   <addaction name="menu"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <action name="action_Setting">
@@ -148,6 +155,11 @@
     <font>
      <pointsize>9</pointsize>
     </font>
+   </property>
+  </action>
+  <action name="action_about">
+   <property name="text">
+    <string>关于</string>
    </property>
   </action>
  </widget>
@@ -217,6 +229,22 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>action_about</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>doAbout()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>387</x>
+     <y>275</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>doSelect()</slot>
@@ -225,5 +253,6 @@
   <slot>doMacdCross()</slot>
   <slot>doMacdDiverse()</slot>
   <slot>doPickupSave()</slot>
+  <slot>doAbout()</slot>
  </slots>
 </ui>

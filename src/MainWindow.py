@@ -4,25 +4,28 @@ import random
 import sys
 import json
 import time
+
+import datetime
 from PyQt4 import QtGui, QtCore, uic
 from PyQt4.QtCore import QDate
 
 from src.strategy import strategy
 from utils import cur_file_path
 from dataProvider import data_provider
+from mainRes import Ui_MainWindow
 
 macdcross = 1
 macdDivergence = 2
 
 
 # Subclassing QObject and using moveToThread
-class workerThread(QtCore.QThread):
+class workerThreadPickup(QtCore.QThread):
     def __init__(self, tradeDate, codeList, strategy, parent=None):
         self.tradeDate = tradeDate
         self.codeList = codeList
         self.strategy = strategy
         self.parent = parent
-        super(workerThread, self).__init__(parent)
+        super(workerThreadPickup, self).__init__(parent)
 
     def run(self):
         pickupCode = []
@@ -44,34 +47,35 @@ class workerThread(QtCore.QThread):
         self.emit(QtCore.SIGNAL('select finished'))
 
 
-class MainWindow(QtGui.QMainWindow):
+class MainWindow(QtGui.QMainWindow,Ui_MainWindow):
     def __init__(self):
         super(MainWindow, self).__init__()
         self.ui = uic.loadUi('../resource/main.ui', self)
+        # self.setupUi(self)
         self.setWindowTitle("Stock Helper")
         self.setWindowIcon(QtGui.QIcon('../resource/app.png'))
         self.configData = {}
+        self.tradeDate = datetime.date.today()
         self.appPath = cur_file_path()
         self.progressBar.hide()
         self.progressBar.setTextVisible(True)
         self.codePickup = []
+        self.worker = None
 
         configPath = self.appPath + '/config.json'
         if os.path.isfile(configPath):
             with open(configPath, 'r') as f:
                 self.configData = json.load(f)
-                # print type(self.configData)
-                # self.configData = eval(json.load(f))
         if 'useTdx' in self.configData and self.configData['useTdx'] is 1:
-            self.ui.checkBox_useTDXdata.toggle()
+            self.checkBox_useTDXdata.toggle()
         if 'macdCross' in self.configData and self.configData['macdCross'] is 1:
-            self.ui.checkBox_macdCross.toggle()
+            self.checkBox_macdCross.toggle()
         if self.configData.has_key('macdDivergence') and self.configData['macdDivergence'] is 1:
-            self.ui.checkBox_macdDivergence.toggle()
+            self.checkBox_macdDivergence.toggle()
 
-        self.ui.dateEdit_pickup.setDate(QDate.currentDate())
+        self.dateEdit_pickup.setDate(QDate.currentDate())
         if 'tdxDataPath' in self.configData:
-            self.ui.lineEdit_tdxDataPath.setText(u'通达信数据路径: ' + self.configData['tdxDataPath'])
+            self.lineEdit_tdxDataPath.setText(u'通达信数据路径: ' + self.configData['tdxDataPath'])
 
         # init data provider
         self.dataProvider = data_provider(self.appPath)
@@ -84,7 +88,7 @@ class MainWindow(QtGui.QMainWindow):
         dirName = QtGui.QFileDialog.getExistingDirectory(self, "通达信数据路径")
         if not dirName:
             return
-        self.ui.lineEdit_tdxDataPath.setText(u'通达信数据路径: ' + dirName)
+        self.lineEdit_tdxDataPath.setText(u'通达信数据路径: ' + dirName)
         tdxPath = {'tdxDataPath': unicode(dirName, 'utf8', 'ignore').encode('utf8')}
         self.configData['tdxDataPath'] = tdxPath
         json_str = json.dumps(tdxPath)
@@ -96,6 +100,10 @@ class MainWindow(QtGui.QMainWindow):
             # self.setting = SettingWindow()
             # self.setting.show()
 
+    @QtCore.pyqtSlot()
+    def doAbout(self):
+        QtGui.QMessageBox.information(self, "StockHelper", 'Version:' + datetime.date.today().strftime("%Y-%m-%d") + '\nEmail: ascomtohom@126.com', QtGui.QMessageBox.Ok)
+        
     @QtCore.pyqtSlot()
     def updateProgressBar(self, val):
         self.progressBar.setValue(val)
@@ -116,7 +124,7 @@ class MainWindow(QtGui.QMainWindow):
     @QtCore.pyqtSlot()
     def selectFinished(self):
         # save to YYYYMMDD_macdCross.scv
-        if self.ui.checkBox_savePickup.isChecked():
+        if self.checkBox_savePickup.isChecked():
             output = open(self.appPath + '/macdCross_' + self.tradeDate.strftime("%Y-%m-%d") + '.txt', 'w')
             output.write(str(self.codePickup))
             output.close()
@@ -125,8 +133,9 @@ class MainWindow(QtGui.QMainWindow):
     @QtCore.pyqtSlot()
     def doSelect(self):
         self.saveGUIConfig()
+        self.codePickup = []
         codeList = []
-        if self.ui.checkBox_useTDXdata.isChecked():
+        if self.checkBox_useTDXdata.isChecked():
             if 'tdxDataPath' not in self.configData:
                 QtGui.QMessageBox.Warning(self, "StockHelper", '数据路径未设置', QtGui.QMessageBox.Ok)
                 return
@@ -134,36 +143,26 @@ class MainWindow(QtGui.QMainWindow):
         else:
             codeList = self.dataProvider.getCodeList()
 
-        trade_date = self.ui.dateEdit_pickup.dateTime().toPyDateTime()
+        self.tradeDate = self.dateEdit_pickup.dateTime().toPyDateTime()
         self.progressBar.setRange(1, len(codeList))
         self.progressBar.show()
 
-        # filterMacdCross = self.checkBox_macdCross.isChecked()
-        # for code in codeList:
-        #     klines = self.dataProvider.get_data_by_count(code, trade_date, 35, 'D')
-        #     print code + ' %d '% len(klines)
-        #     if len(klines) < 35:
-        #         # 股票交易天数不足
-        #         continue
-        #     if filterMacdCross and self.strategy.macdCross(klines):
-        #         print code
-
-        self.worker = workerThread(trade_date, codeList, self.strategy, self)
+        self.worker = workerThreadPickup(self.tradeDate, codeList, self.strategy, self)
         self.worker.start()
         self.connect(self.worker, QtCore.SIGNAL('progress'), self.updateProgressBar)
         self.connect(self.worker, QtCore.SIGNAL('strategy'), self.doStrategy)
         self.connect(self.worker, QtCore.SIGNAL('select finished'), self.selectFinished)
 
     def saveGUIConfig(self):
-        if self.ui.checkBox_useTDXdata.isChecked():
+        if self.checkBox_useTDXdata.isChecked():
             self.configData['useTdx'] = 1
         else:
             self.configData['useTdx'] = 0
-        if self.ui.checkBox_macdCross.isChecked():
+        if self.checkBox_macdCross.isChecked():
             self.configData['macdCross'] = 1
         else:
             self.configData['macdCross'] = 0
-        if self.ui.checkBox_macdDivergence.isChecked():
+        if self.checkBox_macdDivergence.isChecked():
             self.configData['macdDivergence'] = 1
         else:
             self.configData['macdDivergence'] = 0
@@ -173,12 +172,12 @@ class MainWindow(QtGui.QMainWindow):
 
     @QtCore.pyqtSlot()
     def workDone(self):
-        self.ui.ptx_out.setPlainText(u"操作完毕。")
+        self.ptx_out.setPlainText(u"操作完毕。")
 
     @QtCore.pyqtSlot()
     def doUseTDX(self):
         print("doUseTDX clicked")
-        if self.ui.checkBox_useTDXdata.isChecked():
+        if self.checkBox_useTDXdata.isChecked():
             self.configData['useTdx'] = 1
         else:
             self.configData['useTdx'] = 0

@@ -20,7 +20,7 @@ class data_provider():
 
     def getCodeList(self, dataPath=None, dataType=None):
         """
-        获取股票代码列表
+        获取当天的股票代码列表
         :param tdxPath: not None 遍历目录获取代码， is None 使用tushare获取当前交易日的股票列表
         :param dataType: 数据类型， 0 通达信数据
         :return: [] 股票代码列表

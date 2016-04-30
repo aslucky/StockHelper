@@ -96,9 +96,9 @@ class Ui_MainWindow(object):
         self.menubar.addAction(self.menuFile.menuAction())
 
         self.retranslateUi(MainWindow)
-        QtCore.QObject.connect(self.pb_select, QtCore.SIGNAL(_fromUtf8("clicked()")), MainWindow.doSelect)
-        QtCore.QObject.connect(self.action_Setting, QtCore.SIGNAL(_fromUtf8("triggered()")), MainWindow.doSetting)
-        QtCore.QObject.connect(self.pb_setting, QtCore.SIGNAL(_fromUtf8("clicked()")), MainWindow.doSetting)
+        QtCore.QObject.connect(self.pb_select, QtCore.SIGNAL(_fromUtf8("clicked()")), MainWindow.do_select)
+        QtCore.QObject.connect(self.action_Setting, QtCore.SIGNAL(_fromUtf8("triggered()")), MainWindow.do_setting)
+        QtCore.QObject.connect(self.pb_setting, QtCore.SIGNAL(_fromUtf8("clicked()")), MainWindow.do_setting)
         QtCore.QObject.connect(self.checkBox_useTDXdata, QtCore.SIGNAL(_fromUtf8("stateChanged(int)")), MainWindow.doUseTDX)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 

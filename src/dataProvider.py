@@ -8,7 +8,7 @@ import pandas as pd
 from src.utils import getLastTradeDate
 
 
-class data_provider():
+class DataProvider:
     """
     对外提供数据
     dataPath：本地数据路径
@@ -17,8 +17,10 @@ class data_provider():
     def __init__(self, app_path):
         self.appPath = app_path
         self.errString = ''
+        self.lastTradeDate = getLastTradeDate()
 
-    def getCodeList(self, dataPath=None, dataType=None):
+    def get_code_list(self, dataPath=None, dataType=None):
+
         """
         获取当天的股票代码列表
         :param tdxPath: not None 遍历目录获取代码， is None 使用tushare获取当前交易日的股票列表
@@ -37,17 +39,28 @@ class data_provider():
                 self.errString = '不支持的数据类型dataType:%d' % dataType
                 return []
         else:
-            if not os.path.isfile(self.appPath + '/' + getLastTradeDate() + '_Datas.csv'):
-                codeList = ts.get_today_all()
+            if not os.path.isfile(self.appPath + '/' + self.lastTradeDate + '_Datas.csv'):
+                codeList = ts.get_stock_basics()
+                codeList.to_csv(self.appPath + '/' + self.lastTradeDate + '_Datas.csv', encoding='utf8')
+                # codeList = ts.get_today_all()
                 if codeList is None:
                     print 'None data fetched'
                     return []
                 # save to file don't need fetch every time, too slow
-                codeList.to_csv(self.appPath + '/' + getLastTradeDate() + '_Datas.csv', encoding='utf8')
+                codeList.to_csv(self.appPath + '/' + self.lastTradeDate + '_Datas.csv', encoding='utf8')
             else:
-                codeList = pd.read_csv(self.appPath + '/' + getLastTradeDate() + '_Datas.csv', encoding='utf8',
+                codeList = pd.read_csv(self.appPath + '/' + self.lastTradeDate + '_Datas.csv', encoding='utf8',
                                        index_col=0, dtype={'code': str})
             return codeList['code']
+
+    def get_day_rise(self):
+        if not os.path.isfile(self.appPath + '/' + self.lastTradeDate + '_Datas.csv'):
+            codeList = ts.get_today_all()
+            codeList.to_csv(self.appPath + '/' + self.lastTradeDate + '_Datas.csv', encoding='utf8')
+        else:
+            codeList = pd.read_csv(self.appPath + '/' + self.lastTradeDate + '_Datas.csv', encoding='utf8',dtype={'code': str})
+        # print codeList.ix[:,1:10]
+        return codeList
 
     def get_data_by_count(self, stock_code, trade_date, count, kline_type, dataPath=None, dataType=None):
         """
@@ -82,9 +95,9 @@ class data_provider():
 
 
 if __name__ == '__main__':
-    dp = data_provider()
+    dp = DataProvider()
     print dp.dataPath
 
-    dp1 = data_provider('e:\\ss')
+    dp1 = DataProvider('e:\\ss')
     print dp1.dataPath
     print get_code_List(os.path.split(os.path.realpath(__file__))[0])

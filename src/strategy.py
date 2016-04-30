@@ -2,8 +2,11 @@
 import pandas as pd
 import talib as ta
 
+strategy_macdCross = 1
+strategy_macdDiverse = 2
 
-class strategy():
+
+class Strategy():
     """
     选股策略
     """

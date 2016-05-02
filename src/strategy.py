@@ -31,8 +31,7 @@ class Strategy():
         2015-11-25  0.51        0.32      0.19
         '''
         dataLength = len(analysis)
-        if not analysis.empty and analysis.iloc[dataLength - 1, 0] > analysis.iloc[dataLength - 1, 1] and \
-                        analysis.iloc[dataLength - 2, 0] < analysis.iloc[dataLength - 2, 1]:
+        if not analysis.empty and analysis.iloc[dataLength - 1, 0] > analysis.iloc[dataLength - 1, 1] and analysis.iloc[dataLength - 2, 0] < analysis.iloc[dataLength - 2, 1]:
             return True
         return False
 

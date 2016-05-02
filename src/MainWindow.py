@@ -10,38 +10,10 @@ from PyQt4.QtCore import QDate, Qt, QVariant
 
 from DataProvider import DataProvider
 from mainRes import Ui_MainWindow
+from src import threadWorker
 from src.strategy import Strategy, strategy_macdCross, strategy_macdDiverse
 from src.threadWorker import WorkerDayRiseList, workerTypeDayRise, workerTypePickup, WorkerPickup
 from utils import cur_file_path
-
-
-# Subclassing QObject and using moveToThread
-class WorkerThreadPickup(QtCore.QThread):
-    def __init__(self, tradeDate, codeList, strategy, parent=None):
-        self.tradeDate = tradeDate
-        self.codeList = codeList
-        self.strategy = strategy
-        self.parent = parent
-        super(WorkerThreadPickup, self).__init__(parent)
-
-    def run(self):
-        pickupCode = []
-        # apply strategy
-        step = 1
-        filterMacdCross = self.parent.checkBox_macdCross.isChecked()
-        for code in self.codeList:
-            self.emit(QtCore.SIGNAL('progress'), step)
-            step += 1
-            klines = self.parent.dataProvider.get_data_by_count(code, self.tradeDate, 50, 'D')
-            # print code + ' %d ' % len(klines)
-            if len(klines) < 35:
-                # 股票交易天数不足
-                continue
-            # pandas在线程里面有问题，\pandas\core\format.py:2087: RuntimeWarning: invalid value encountered in greater  has_large_values = (abs_vals > 1e8).any()
-            if filterMacdCross:
-                self.emit(QtCore.SIGNAL('strategy'), strategy_macdCross, code, klines)
-
-        self.emit(QtCore.SIGNAL('select finished'))
 
 
 class DayListTableModel(QtCore.QAbstractTableModel):
@@ -102,17 +74,23 @@ class MainWindow(QtGui.QMainWindow, Ui_MainWindow):
         self.dataProvider = DataProvider(self.appPath)
         # init strategy
         self.strategy = Strategy()
-        self.codePickup = []
+        # 选出来的股票信息 = pickupHeader
+        self.codePickup = [[]]
         # 股票代码列表
         self.codeList = []
         self.workerDayRiseList = WorkerDayRiseList(self.dataProvider)
         self.workerPickup = None
 
-        self.tabledata = [['', '', '', '', '', '', '', '', '', '']]
+        tabledata = [['', '', '', '', '', '', '', '', '', '']]
         # set the table model
         self.header = [u'序号', u'代码', u'名称', u'涨跌幅', u'现价', u'开盘价', u'最高价', u'最低价', u'昨日收盘价', u'成交量', u'换手率']
-        tm = DayListTableModel(self.tabledata, self.header, self)
+        tm = DayListTableModel(tabledata, self.header, self)
         self.tableView_dayList.setModel(tm)
+
+        tabledataPickup = [['', '', '', '', '', '']]
+        self.pickupHeader = [u'序号', u'代码', u'名称', u'涨跌幅', u'现价', u'换手率']
+        tm = DayListTableModel(tabledataPickup, self.pickupHeader, self)
+        self.tableView_pickup.setModel(tm)
 
         configPath = self.appPath + '/config.json'
         if os.path.isfile(configPath):
@@ -149,21 +127,27 @@ class MainWindow(QtGui.QMainWindow, Ui_MainWindow):
         :return: 
         """
         if workerTypeDayRise == worker_type:
-            self.codeList = datas['code'].tolist()
+            self.codeList = datas
             # set the table model
             tm = DayListTableModel(datas.values.tolist(), self.header, self)
             self.tableView_dayList.setModel(tm)
             for i in range(11):
                 self.tableView_dayList.resizeColumnToContents(i)
-            self.statusBar().showMessage(u"数据加载完毕")
         elif workerTypePickup == worker_type:
-            pass
+            if self.checkBox_savePickup.isChecked():
+                print 'count:%d' % len(self.codePickup)
+                output = open(self.appPath + '/select_macd' + self.tradeDate.strftime("%Y-%m-%d") + '.txt', 'w')
+                output.write(str(self.codePickup))
+                output.close()
         else:
             QtGui.QMessageBox.Warning(self, "StockHelper", '未知工作类型', QtGui.QMessageBox.Ok)
+        self.progressBar.hide()
+        self.statusBar().showMessage(u"就绪...")
         self.enable_ui(1)
 
     @QtCore.pyqtSlot()
     def do_day_rise(self):
+        self.tabWidget.setCurrentIndex(0)
         # 禁止连续点击
         self.enable_ui(0)
         # 涨幅排行榜线程
@@ -179,14 +163,20 @@ class MainWindow(QtGui.QMainWindow, Ui_MainWindow):
 
     @QtCore.pyqtSlot()
     def do_select(self):
+        threadWorker.workerStop = False
         self.save_gui_config()
+        self.enable_ui(0)
         self.codePickup = []
         self.tabWidget.setCurrentIndex(1)
         self.tradeDate = self.dateEdit_pickup.dateTime().toPyDateTime()
-        if self.codeList:
+        if len(self.codeList) is 0:
             # 没有代码列表信息，需要重新获取一份
             self.codeList = self.dataProvider.get_code_list()
-        self.progressBar.setRange(1, len(self.codeList))
+        if len(self.codeList) is 0:
+            QtGui.QMessageBox.Warning(self, "StockHelper", '股票代码列表为空', QtGui.QMessageBox.Ok)
+            return
+        self.statusBar().showMessage(u"正在执行选股操作...")
+        self.progressBar.setRange(0, len(self.codeList))
         self.progressBar.show()
 
         # 涨幅排行榜线程
@@ -197,14 +187,18 @@ class MainWindow(QtGui.QMainWindow, Ui_MainWindow):
             strategyFilter.append(strategy_macdDiverse)
 
         self.workerThread.start()
-        self.workerPickup = WorkerPickup(self.tradeDate, self.codeList, self.dataProvider, self.strategy,
-                                         strategyFilter)
+        self.workerPickup = WorkerPickup(self.tradeDate, self.codeList['code'], self.dataProvider, self.strategy, strategyFilter)
         self.workerPickup.moveToThread(self.workerThread)
         self.connect(self.workerPickup, QtCore.SIGNAL('work_finished'), self.work_finished)
         self.connect(self.workerPickup, QtCore.SIGNAL('strategy'), self.do_strategy)
-        self.workerPickup.progressStep.connect(self.progressBar.setValue)
+        self.connect(self.workerPickup, QtCore.SIGNAL('progressStep'), self.progressBar.setValue)
         # 这里很关键，这样才会不阻塞界面线程
         self.workerPickup.start.emit()
+
+    @QtCore.pyqtSlot()
+    def do_stop(self):
+        self.enable_ui(1)
+        threadWorker.workerStop = True
 
     @QtCore.pyqtSlot()
     def do_setting(self):
@@ -229,29 +223,41 @@ class MainWindow(QtGui.QMainWindow, Ui_MainWindow):
                                       QtGui.QMessageBox.Ok)
 
     @QtCore.pyqtSlot()
-    def do_strategy(self, strategy_type, code):
-        klines = self.dataProvider.get_data_by_count(code, self.tradeDate, 50, 'D')
-        # print code + ' %d ' % len(klines)
-        if len(klines) < 35:
-            # 股票交易天数不足
-            return
-        if strategy_type == strategy_macdCross:
-            if self.strategy.macdCross(klines):
-                self.codePickup.append(code)
-                self.tableView_pickupList.appendPlainText(code)
-        elif strategy_type == strategy_macdDiverse:
-            if self.strategy.macdDivergence(klines):
-                self.codePickup.append(code)
-                self.tableView_pickupList.appendPlainText(code)
-        else:
-            QtGui.QMessageBox.Warning(self, "StockHelper", '未知策略', QtGui.QMessageBox.Ok)
+    def do_strategy(self, strategy_type, code, klines):
+        rowData = klines.ix[len(klines) - 1]
+        bingo = False
+        for st in strategy_type:
+            if st == strategy_macdCross:
+                if self.strategy.macdCross(klines):
+                    bingo = True
+                else:
+                    return 
+            elif st == strategy_macdDiverse:
+                if self.strategy.macdDivergence(klines):
+                    bingo = True
+                else:
+                    return
+            else:
+                QtGui.QMessageBox.Warning(self, "StockHelper", '未知策略', QtGui.QMessageBox.Ok)
+        
+        try:
+            stockName = unicode(self.codeList[self.codeList['code'] == code]['name'].tolist()[0], 'utf-8')
+        except:
+            stockName = self.codeList[self.codeList['code'] == code]['name'].tolist()[0]
+        self.codePickup.append(
+            [len(self.codePickup) + 1, code, stockName, '%.02f' % rowData['p_change'], '%.02f' % rowData['close'],
+             '%.02f' % rowData['turnover']])
+        # set the table model
+        tm = DayListTableModel(self.codePickup, self.pickupHeader, self)
+        self.tableView_pickup.setModel(tm)
 
     @QtCore.pyqtSlot()
     def select_finished(self):
         # save to YYYYMMDD_macdCross.scv
         if self.checkBox_savePickup.isChecked():
             output = open(self.appPath + '/macdCross_' + self.tradeDate.strftime("%Y-%m-%d") + '.txt', 'w')
-            output.write(str(self.codePickup))
+            for line in self.codePickup:
+                output.write("%s\n" % str(line))
             output.close()
         QtGui.QMessageBox.Warning(self, "StockHelper", '操作完成', QtGui.QMessageBox.Ok)
 

@@ -56,6 +56,13 @@
        </widget>
       </item>
       <item>
+       <widget class="QPushButton" name="pb_stop">
+        <property name="text">
+         <string>停止</string>
+        </property>
+       </widget>
+      </item>
+      <item>
        <widget class="QDateEdit" name="dateEdit_pickup">
         <property name="dateTime">
          <datetime>
@@ -152,7 +159,7 @@
        </attribute>
        <layout class="QVBoxLayout" name="verticalLayout_2">
         <item>
-         <widget class="QTableView" name="tableView_pickupList">
+         <widget class="QTableView" name="tableView_pickup">
           <property name="font">
            <font>
             <pointsize>9</pointsize>
@@ -328,6 +335,22 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>pb_stop</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>do_stop()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>366</x>
+     <y>40</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>-3</x>
+     <y>114</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>do_select()</slot>
@@ -338,5 +361,6 @@
   <slot>do_pickup_save()</slot>
   <slot>do_about()</slot>
   <slot>do_day_rise()</slot>
+  <slot>do_stop()</slot>
  </slots>
 </ui>

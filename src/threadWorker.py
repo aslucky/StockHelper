@@ -7,6 +7,7 @@ from PyQt4.QtCore import pyqtSignal, pyqtSlot
 workerTypeDayRise = 1
 workerTypePickup = 2
 
+workerStop = False
 
 class WorkerDayRiseList(QtCore.QObject):
     """
@@ -36,31 +37,32 @@ class WorkerPickup(QtCore.QObject):
     progressRange = pyqtSignal(int)
     progressStep = QtCore.pyqtSignal(int, name="changed")
 
-    def __init__(self, tradeDate, codeList, dataProvider, strategy, strategyType,parent=None):
+    def __init__(self, tradeDate, codeList, dataProvider, strategy, strategyFilter, parent=None):
         super(WorkerPickup, self).__init__(parent)
         self.start.connect(self.run)
         self.tradeDate = tradeDate
         self.codeList = codeList
         self.dataProvider = dataProvider
         self.strategy = strategy
-        self.strategyType = strategyType
+        self.strategyFilter = strategyFilter
 
     @pyqtSlot()
     def run(self):
         # apply strategy
         step = 1
         for code in self.codeList:
+            if workerStop:
+                break
             self.emit(QtCore.SIGNAL('progressStep'), step)
             step += 1
+            klines = self.dataProvider.get_data_by_count(code, self.tradeDate, 50, 'D')
+            # print code + ' %d ' % len(klines)
+            if len(klines) < 35:
+                # 股票交易天数不足
+                continue
             # pandas在线程里面有问题，\pandas\core\format.py:2087: RuntimeWarning: invalid value encountered in greater  has_large_values = (abs_vals > 1e8).any()
-            for st in self.strategyType:
-                self.emit(QtCore.SIGNAL('strategy'), st, code)
-            # klines = self.dataProvider.get_data_by_count(code, self.tradeDate, 50, 'D')
-            # # print code + ' %d ' % len(klines)
-            # if len(klines) < 35:
-            #     # 股票交易天数不足
-            #     continue
-        self.emit(QtCore.SIGNAL('work_finished'), workerTypeDayRise, [])
+            self.emit(QtCore.SIGNAL('strategy'), self.strategyFilter, code, klines)
+        self.emit(QtCore.SIGNAL('work_finished'), workerTypePickup, [])
 
 
 if __name__ == '__main__':

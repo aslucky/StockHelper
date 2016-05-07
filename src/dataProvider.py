@@ -5,7 +5,7 @@ import datetime
 import tushare as ts
 import pandas as pd
 
-from src.utils import getLastTradeDate
+from src.utils import get_legal_trade_date
 
 
 class DataProvider:
@@ -17,7 +17,12 @@ class DataProvider:
     def __init__(self, app_path):
         self.appPath = app_path
         self.errString = ''
-        self.lastTradeDate = getLastTradeDate()
+        self.lastTradeDate = get_legal_trade_date()
+    
+    def get_last_trade_data(self, code):
+        data = ts.get_hist_data(code, self.lastTradeDate)
+        data.rename(columns={'p_change': 'changepercent','close':'trade','turnover':'turnoverratio'}, inplace=True)
+        return data
 
     def get_code_list(self, dataPath=None, dataType=None):
 
@@ -57,26 +62,25 @@ class DataProvider:
         else:
             if not os.path.isfile(self.appPath + '/' + self.lastTradeDate + '_Datas.csv'):
                 codeList = ts.get_stock_basics()
-                # codeList = ts.get_today_all()
                 if codeList is None:
                     print 'None data fetched'
                     return []
-                # save to file don't need fetch every time, too slow
-                # codeList.to_csv(self.appPath + '/' + self.lastTradeDate + '_companyInfo.csv', encoding='utf8')
+                # 格式和涨幅排行榜格式不一致，所以不保存
+                # codeList.to_csv(self.appPath + '/' + self.lastTradeDate + '_Datas.csv', encoding='utf8')
             else:
                 codeList = pd.read_csv(self.appPath + '/' + self.lastTradeDate + '_Datas.csv', encoding='utf8',
                                        index_col=0, dtype={'code': str})
             return codeList
 
     def get_day_rise(self):
-        if not os.path.isfile(self.appPath + '/' + self.lastTradeDate + '_Datas.csv'):
+        if not os.path.isfile(self.appPath + '/datas/' + self.lastTradeDate + '_Datas.csv'):
             try:
                 codeList = ts.get_today_all()
             except Exception:
                 return []
-            codeList.to_csv(self.appPath + '/' + self.lastTradeDate + '_Datas.csv', encoding='utf8')
+            codeList.to_csv(self.appPath + '/datas/' + self.lastTradeDate + '_Datas.csv', encoding='utf8')
         else:
-            codeList = pd.read_csv(self.appPath + '/' + self.lastTradeDate + '_Datas.csv', encoding='utf8',dtype={'code': str})
+            codeList = pd.read_csv(self.appPath + '/datas/' + self.lastTradeDate + '_Datas.csv', encoding='utf8',index_col=0,dtype={'code': str})
         return codeList
 
     def get_data_by_count(self, stock_code, trade_date, count, kline_type, dataPath=None, dataType=None):
@@ -117,4 +121,4 @@ if __name__ == '__main__':
 
     dp1 = DataProvider('e:\\ss')
     print dp1.dataPath
-    print get_code_List(os.path.split(os.path.realpath(__file__))[0])
+    print dp.get_code_list(os.path.split(os.path.realpath(__file__))[0])

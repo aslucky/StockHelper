@@ -1,4 +1,5 @@
 # coding:utf8
+import csv
 import datetime
 import json
 import operator
@@ -7,13 +8,14 @@ import sys
 
 from PyQt4 import QtGui, QtCore, uic
 from PyQt4.QtCore import QDate, Qt, QVariant
+from PyQt4.QtGui import QMessageBox
 
-from DataProvider import DataProvider
+from dataProvider import DataProvider
 from mainRes import Ui_MainWindow
 from src import threadWorker
 from src.strategy import Strategy, strategy_macdCross, strategy_macdDiverse
 from src.threadWorker import WorkerDayRiseList, workerTypeDayRise, workerTypePickup, WorkerPickup
-from utils import cur_file_path
+from utils import cur_file_path, get_legal_trade_date
 
 
 class DayListTableModel(QtCore.QAbstractTableModel):
@@ -73,13 +75,21 @@ class MainWindow(QtGui.QMainWindow, Ui_MainWindow):
         # init data provider
         self.dataProvider = DataProvider(self.appPath)
         # init strategy
-        self.strategy = Strategy()
+        self.strategy = Strategy(self.dataProvider)
         # 选出来的股票信息 = pickupHeader
         self.codePickup = [[]]
         # 股票代码列表
         self.codeList = []
         self.workerDayRiseList = WorkerDayRiseList(self.dataProvider)
         self.workerPickup = None
+        self.comboBox_klineType.addItems([u'30分钟', u'60分钟', u'日线', u'周线', u'月线'])
+        self.kelineType = ['30', '60', 'D', 'W', 'M']
+        self.comboBox_klineType.setCurrentIndex(2)
+        # 暂时先放目录里面保存后面使用数据库
+        if not os.path.exists(self.appPath + '/datas'):
+            os.mkdir(self.appPath + '/datas')
+        if not os.path.exists(self.appPath + '/pickup'):
+            os.mkdir(self.appPath + '/pickup')
 
         tabledata = [['', '', '', '', '', '', '', '', '', '']]
         # set the table model
@@ -89,8 +99,8 @@ class MainWindow(QtGui.QMainWindow, Ui_MainWindow):
 
         tabledataPickup = [['', '', '', '', '', '']]
         self.pickupHeader = [u'序号', u'代码', u'名称', u'涨跌幅', u'现价', u'换手率']
-        tm = DayListTableModel(tabledataPickup, self.pickupHeader, self)
-        self.tableView_pickup.setModel(tm)
+        self.pickupModel = DayListTableModel(tabledataPickup, self.pickupHeader, self)
+        self.tableView_pickup.setModel(self.pickupModel)
 
         configPath = self.appPath + '/config.json'
         if os.path.isfile(configPath):
@@ -102,6 +112,8 @@ class MainWindow(QtGui.QMainWindow, Ui_MainWindow):
             self.checkBox_macdCross.toggle()
         if self.configData.has_key('macdDivergence') and self.configData['macdDivergence'] is 1:
             self.checkBox_macdDivergence.toggle()
+        if self.configData.has_key('savePickup') and self.configData['savePickup'] is 1:
+            self.checkBox_savePickup.toggle()
 
         self.dateEdit_pickup.setDate(QDate.currentDate())
         if 'tdxDataPath' in self.configData:
@@ -136,9 +148,8 @@ class MainWindow(QtGui.QMainWindow, Ui_MainWindow):
         elif workerTypePickup == worker_type:
             if self.checkBox_savePickup.isChecked():
                 print 'count:%d' % len(self.codePickup)
-                output = open(self.appPath + '/select_macd' + self.tradeDate.strftime("%Y-%m-%d") + '.txt', 'w')
-                output.write(str(self.codePickup))
-                output.close()
+                 # save to YYYYMMDD_macdCross.scv
+                self.do_pickup_save()
         else:
             QtGui.QMessageBox.Warning(self, "StockHelper", '未知工作类型', QtGui.QMessageBox.Ok)
         self.progressBar.hide()
@@ -163,18 +174,26 @@ class MainWindow(QtGui.QMainWindow, Ui_MainWindow):
 
     @QtCore.pyqtSlot()
     def do_select(self):
+        print('object do_select thread id: {}'.format(QtCore.QThread.currentThreadId()))
         threadWorker.workerStop = False
         self.save_gui_config()
         self.enable_ui(0)
         self.codePickup = []
         self.tabWidget.setCurrentIndex(1)
+        self.tableView_pickup.clearSpans()
+        
         self.tradeDate = self.dateEdit_pickup.dateTime().toPyDateTime()
+        legalDate = get_legal_trade_date(self.tradeDate)
+        self.tradeDate = datetime.datetime.strptime(legalDate, "%Y-%m-%d")
+        self.dateEdit_pickup.setDate(QDate.fromString(legalDate, 'yyyy-MM-dd'))
+
         if len(self.codeList) is 0:
             # 没有代码列表信息，需要重新获取一份
             self.codeList = self.dataProvider.get_code_list()
         if len(self.codeList) is 0:
             QtGui.QMessageBox.Warning(self, "StockHelper", '股票代码列表为空', QtGui.QMessageBox.Ok)
             return
+        self.lable_top.setText(u'股票总数:{0} 已处理: 0 已选出: 0'.format(len(self.codeList)))
         self.statusBar().showMessage(u"正在执行选股操作...")
         self.progressBar.setRange(0, len(self.codeList))
         self.progressBar.show()
@@ -187,13 +206,18 @@ class MainWindow(QtGui.QMainWindow, Ui_MainWindow):
             strategyFilter.append(strategy_macdDiverse)
 
         self.workerThread.start()
-        self.workerPickup = WorkerPickup(self.tradeDate, self.codeList['code'], self.dataProvider, self.strategy, strategyFilter)
+        self.workerPickup = WorkerPickup(self.tradeDate, self.codeList, self.kelineType[self.comboBox_klineType.currentIndex()], self.dataProvider, strategyFilter, self.strategy)
         self.workerPickup.moveToThread(self.workerThread)
         self.connect(self.workerPickup, QtCore.SIGNAL('work_finished'), self.work_finished)
-        self.connect(self.workerPickup, QtCore.SIGNAL('strategy'), self.do_strategy)
-        self.connect(self.workerPickup, QtCore.SIGNAL('progressStep'), self.progressBar.setValue)
+        self.connect(self.workerPickup, QtCore.SIGNAL('updatePickup'), self.do_update_pickup)
+        self.connect(self.workerPickup, QtCore.SIGNAL('progressUpdate'), self.progressUpdate)
         # 这里很关键，这样才会不阻塞界面线程
         self.workerPickup.start.emit()
+
+    @QtCore.pyqtSlot()
+    def progressUpdate(self, step):
+        self.progressBar.setValue(step)
+        self.lable_top.setText(u'股票总数:{} 已处理: {} 已选出: {}'.format(len(self.codeList), step, len(self.codePickup)))
 
     @QtCore.pyqtSlot()
     def do_stop(self):
@@ -202,7 +226,7 @@ class MainWindow(QtGui.QMainWindow, Ui_MainWindow):
 
     @QtCore.pyqtSlot()
     def do_setting(self):
-        dirName = QtGui.QFileDialog.getExistingDirectory(self, "通达信数据路径")
+        dirName = QtGui.QFileDialog.getExistingDirectory(self, u"通达信数据路径")
         if not dirName:
             return
         self.lineEdit_tdxDataPath.setText(u'通达信数据路径: ' + dirName)
@@ -223,43 +247,17 @@ class MainWindow(QtGui.QMainWindow, Ui_MainWindow):
                                       QtGui.QMessageBox.Ok)
 
     @QtCore.pyqtSlot()
-    def do_strategy(self, strategy_type, code, klines):
-        rowData = klines.ix[len(klines) - 1]
-        bingo = False
-        for st in strategy_type:
-            if st == strategy_macdCross:
-                if self.strategy.macdCross(klines):
-                    bingo = True
-                else:
-                    return 
-            elif st == strategy_macdDiverse:
-                if self.strategy.macdDivergence(klines):
-                    bingo = True
-                else:
-                    return
-            else:
-                QtGui.QMessageBox.Warning(self, "StockHelper", '未知策略', QtGui.QMessageBox.Ok)
-        
-        try:
-            stockName = unicode(self.codeList[self.codeList['code'] == code]['name'].tolist()[0], 'utf-8')
-        except:
-            stockName = self.codeList[self.codeList['code'] == code]['name'].tolist()[0]
-        self.codePickup.append(
-            [len(self.codePickup) + 1, code, stockName, '%.02f' % rowData['p_change'], '%.02f' % rowData['close'],
-             '%.02f' % rowData['turnover']])
+    def do_update_pickup(self, pickup_data):
+        """
+        更新选股界面
+        :param pickup_data: [u'序号', u'代码', u'名称', u'涨跌幅', u'现价', u'换手率']
+        :return: 
+        """
+        self.codePickup.append(pickup_data)
+        self.lable_top.setText(u'选股数量：%d' % len(self.codePickup))
         # set the table model
-        tm = DayListTableModel(self.codePickup, self.pickupHeader, self)
-        self.tableView_pickup.setModel(tm)
-
-    @QtCore.pyqtSlot()
-    def select_finished(self):
-        # save to YYYYMMDD_macdCross.scv
-        if self.checkBox_savePickup.isChecked():
-            output = open(self.appPath + '/macdCross_' + self.tradeDate.strftime("%Y-%m-%d") + '.txt', 'w')
-            for line in self.codePickup:
-                output.write("%s\n" % str(line))
-            output.close()
-        QtGui.QMessageBox.Warning(self, "StockHelper", '操作完成', QtGui.QMessageBox.Ok)
+        self.pickupModel = DayListTableModel(self.codePickup, self.pickupHeader, self)
+        self.tableView_pickup.setModel(self.pickupModel)
 
     def save_gui_config(self):
         if self.checkBox_useTDXdata.isChecked():
@@ -274,20 +272,42 @@ class MainWindow(QtGui.QMainWindow, Ui_MainWindow):
             self.configData['macdDivergence'] = 1
         else:
             self.configData['macdDivergence'] = 0
+        if self.checkBox_savePickup.isChecked():
+            self.configData['savePickup'] = 1
+        else:
+            self.configData['savePickup'] = 0
         # write to config file
         with open('config.json', 'w') as f:
             json.dump(self.configData, f)
 
     @QtCore.pyqtSlot()
-    def do_use_tdx(self):
-        print("doUseTDX clicked")
-        if self.checkBox_useTDXdata.isChecked():
-            self.configData['useTdx'] = 1
-        else:
-            self.configData['useTdx'] = 0
-        # write to config file
-        with open('config.json', 'w') as f:
-            json.dump(self.configData, f)
+    def do_pickup_save(self):
+        if self.checkBox_savePickup.isChecked() and self.codePickup:
+            self.write_csv(self.appPath + '/pickup/macdCross_' + self.tradeDate.strftime("%Y-%m-%d") + '.txt')
+
+            # output = open(self.appPath + '/pickup/macdCross_' + self.tradeDate.strftime("%Y-%m-%d") + '.txt', 'w')
+            # for line in self.codePickup:
+            #     output.write("%s\r\n" % str(line))
+            # output.close()
+
+    def load_csv(self, fileName):
+        with open(fileName, "rb") as fileInput:
+            for row in csv.reader(fileInput):
+                items = [
+                    QtGui.QStandardItem(field)
+                    for field in row
+                    ]
+                self.model.appendRow(items)
+
+    def write_csv(self, fileName):
+        with open(fileName, "wb") as fileOutput:
+            writer = csv.writer(fileOutput)
+            for rowNumber in range(self.pickupModel.rowCount()):
+                fields = [
+                    self.pickupModel.data(self.pickupModel.index(rowNumber, columnNumber), QtCore.Qt.DisplayRole)
+                    for columnNumber in range(self.pickupModel.columnCount())
+                    ]
+                writer.writerow(fields)
 
 
 if __name__ == '__main__':

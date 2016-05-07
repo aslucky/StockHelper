@@ -6,8 +6,11 @@ import sys
 import tushare as ts
 
 
-def getLastTradeDate():
-    last_trade_date = datetime.datetime.today()
+def get_legal_trade_date(trade_date=None):
+    if trade_date == None:
+        last_trade_date = datetime.datetime.today()
+    else:
+        last_trade_date = trade_date
     if int(last_trade_date.strftime("%w")) == 0:
         # sunday
         last_trade_date = last_trade_date + datetime.timedelta(days=-2)

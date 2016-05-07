@@ -114,6 +114,8 @@ class DataProvider:
             return []
         return spy[:count].sort_index()
 
+    def makeDataFrame(self, dataList, colName):
+        return pd.DataFrame(dataList, columns=colName)
 
 if __name__ == '__main__':
     dp = DataProvider()

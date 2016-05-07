@@ -147,8 +147,6 @@ class MainWindow(QtGui.QMainWindow, Ui_MainWindow):
                 self.tableView_dayList.resizeColumnToContents(i)
         elif workerTypePickup == worker_type:
             if self.checkBox_savePickup.isChecked():
-                print 'count:%d' % len(self.codePickup)
-                 # save to YYYYMMDD_macdCross.scv
                 self.do_pickup_save()
         else:
             QtGui.QMessageBox.Warning(self, "StockHelper", '未知工作类型', QtGui.QMessageBox.Ok)
@@ -181,7 +179,7 @@ class MainWindow(QtGui.QMainWindow, Ui_MainWindow):
         self.codePickup = []
         self.tabWidget.setCurrentIndex(1)
         self.tableView_pickup.clearSpans()
-        
+
         self.tradeDate = self.dateEdit_pickup.dateTime().toPyDateTime()
         legalDate = get_legal_trade_date(self.tradeDate)
         self.tradeDate = datetime.datetime.strptime(legalDate, "%Y-%m-%d")
@@ -283,31 +281,9 @@ class MainWindow(QtGui.QMainWindow, Ui_MainWindow):
     @QtCore.pyqtSlot()
     def do_pickup_save(self):
         if self.checkBox_savePickup.isChecked() and self.codePickup:
-            self.write_csv(self.appPath + '/pickup/macdCross_' + self.tradeDate.strftime("%Y-%m-%d") + '.txt')
-
-            # output = open(self.appPath + '/pickup/macdCross_' + self.tradeDate.strftime("%Y-%m-%d") + '.txt', 'w')
-            # for line in self.codePickup:
-            #     output.write("%s\r\n" % str(line))
-            # output.close()
-
-    def load_csv(self, fileName):
-        with open(fileName, "rb") as fileInput:
-            for row in csv.reader(fileInput):
-                items = [
-                    QtGui.QStandardItem(field)
-                    for field in row
-                    ]
-                self.model.appendRow(items)
-
-    def write_csv(self, fileName):
-        with open(fileName, "wb") as fileOutput:
-            writer = csv.writer(fileOutput)
-            for rowNumber in range(self.pickupModel.rowCount()):
-                fields = [
-                    self.pickupModel.data(self.pickupModel.index(rowNumber, columnNumber), QtCore.Qt.DisplayRole)
-                    for columnNumber in range(self.pickupModel.columnCount())
-                    ]
-                writer.writerow(fields)
+            # save to YYYYMMDD_macdCross.scv
+            df = self.dataProvider.makeDataFrame(self.codePickup, self.pickupHeader)
+            df.to_csv(self.appPath + '/pickup/macdCross_' + self.tradeDate.strftime("%Y-%m-%d") + '.csv', encoding='utf8')
 
 
 if __name__ == '__main__':

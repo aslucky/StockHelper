@@ -35,23 +35,23 @@ class Strategy:
         2015-11-24  0.42        0.27      0.15
         2015-11-25  0.51        0.32      0.19
         '''
-        # dataLength = len(analysis)
-        # if not analysis.empty and analysis.iloc[dataLength - 1, 0] > analysis.iloc[dataLength - 1, 1] and analysis.iloc[dataLength - 2, 0] < analysis.iloc[dataLength - 2, 1]:
-        #     return True
-        
-        analysis = analysis.sort_index(ascending=False)
-        # print analysis
-        '''
-                    macd(diff)  macdsignal(dea)  macdhist(macd)
-        date
-        2015-11-25  0.51        0.32      0.19
-        2015-11-24  0.42        0.27      0.15
-        2015-11-23  0.37        0.23      0.14
-        '''
-        # macd diff上穿dea
-        if not analysis.empty and analysis.iloc[0, 0] > analysis.iloc[0, 1] and analysis.iloc[0 + 1, 0] < analysis.iloc[0 + 1, 1]:
-            # print code + ' diff:%f '% analysis.iloc[0, 0] + 'dea:%f '%  analysis.iloc[0, 1] +' prediff:%f' % analysis.iloc[0 + 1, 0] + 'predea:%f '% analysis.iloc[0 + 1, 1]
+        dataLength = len(analysis)
+        if not analysis.empty and analysis.iloc[dataLength - 1, 0] > analysis.iloc[dataLength - 1, 1] and analysis.iloc[dataLength - 2, 0] < analysis.iloc[dataLength - 2, 1]:
             return True
+        
+        # analysis = analysis.sort_index(ascending=False)
+        # # print analysis
+        # '''
+        #             macd(diff)  macdsignal(dea)  macdhist(macd)
+        # date
+        # 2015-11-25  0.51        0.32      0.19
+        # 2015-11-24  0.42        0.27      0.15
+        # 2015-11-23  0.37        0.23      0.14
+        # '''
+        # # macd diff上穿dea
+        # if not analysis.empty and analysis.iloc[0, 0] > analysis.iloc[0, 1] and analysis.iloc[0 + 1, 0] < analysis.iloc[0 + 1, 1]:
+        #     # print code + ' diff:%f '% analysis.iloc[0, 0] + 'dea:%f '%  analysis.iloc[0, 1] +' prediff:%f' % analysis.iloc[0 + 1, 0] + 'predea:%f '% analysis.iloc[0 + 1, 1]
+        #     return True
         return False
 
     def get_low_price_macd(self, code, date, klineType):
@@ -95,8 +95,8 @@ class Strategy:
             return []
         # 从最低价之前的30个交易日开始找第二个低点
         trade_date = datetime.datetime.strptime(low_result[1], '%Y-%m-%d')
-        trade_date += datetime.timedelta(days=-10)
-        pre_low_result = self.get_low_price_macd(code, date, klineType)
+        trade_date += datetime.timedelta(days=-30)
+        pre_low_result = self.get_low_price_macd(code, trade_date, klineType)
         if not pre_low_result:
             return []
         # 检查是否macd背离

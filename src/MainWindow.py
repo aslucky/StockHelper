@@ -110,9 +110,9 @@ class MainWindow(QtGui.QMainWindow, Ui_MainWindow):
             self.checkBox_useTDXdata.toggle()
         if 'macdCross' in self.configData and self.configData['macdCross'] is 1:
             self.checkBox_macdCross.toggle()
-        if self.configData.has_key('macdDivergence') and self.configData['macdDivergence'] is 1:
+        if 'macdDivergence' in self.configData and self.configData['macdDivergence'] is 1:
             self.checkBox_macdDivergence.toggle()
-        if self.configData.has_key('savePickup') and self.configData['savePickup'] is 1:
+        if 'savePickup' in self.configData and self.configData['savePickup'] is 1:
             self.checkBox_savePickup.toggle()
 
         self.dateEdit_pickup.setDate(QDate.currentDate())

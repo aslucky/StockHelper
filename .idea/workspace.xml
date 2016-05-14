@@ -2,11 +2,15 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5ceaba64-58ba-4147-9df5-6ffecbe6d368" name="Default" comment="完成界面的大部分控件显示。">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/UIPickup.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resource/pickup.ui" afterPath="$PROJECT_DIR$/resource/pickup.ui" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/resource/pickup.ui" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/UIPickup.py" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resource/main.ui" afterPath="$PROJECT_DIR$/resource/main.ui" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/plan.vsdx" afterPath="$PROJECT_DIR$/src/plan.vsdx" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/MainWindow.py" afterPath="$PROJECT_DIR$/src/MainWindow.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/config.json" afterPath="$PROJECT_DIR$/src/config.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/strategy.py" afterPath="$PROJECT_DIR$/src/strategy.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/threadWorker.py" afterPath="$PROJECT_DIR$/src/threadWorker.py" />
     </list>
     <ignored path="stockHelper.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -20,24 +24,24 @@
   </component>
   <component name="ChangesViewManager" flattened_view="true" show_ignored="false" />
   <component name="CoverageDataManager">
-    <SUITE FILE_PATH="coverage/stockHelper$MainWindow.coverage" NAME="MainWindow Coverage Results" MODIFIED="1461469619988" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/gui" />
-    <SUITE FILE_PATH="coverage/stockHelper$UIPickup.coverage" NAME="UIPickup Coverage Results" MODIFIED="1463151185974" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
-    <SUITE FILE_PATH="coverage/stockHelper$selectMACDDivergence.coverage" NAME="selectMACDDivergence Coverage Results" MODIFIED="1461329586587" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
-    <SUITE FILE_PATH="coverage/stockHelper$Nosetests_in_stockHelper.coverage" NAME="Nosetests in stockHelper Coverage Results" MODIFIED="1461397005221" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/stockHelper$setting.coverage" NAME="setting Coverage Results" MODIFIED="1461418584428" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/gui" />
-    <SUITE FILE_PATH="coverage/stockHelper$Nosetests_in_draw.coverage" NAME="Nosetests in draw Coverage Results" MODIFIED="1461077068876" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
-    <SUITE FILE_PATH="coverage/stockHelper$python.coverage" NAME="python Coverage Results" MODIFIED="1461469626751" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
-    <SUITE FILE_PATH="coverage/stockHelper$MainWindow__1_.coverage" NAME="MainWindow (1) Coverage Results" MODIFIED="1462628709157" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
     <SUITE FILE_PATH="coverage/stockHelper$pyQtStudy__1_.coverage" NAME="pyQtStudy (1) Coverage Results" MODIFIED="1461418968034" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/gui" />
-    <SUITE FILE_PATH="coverage/stockHelper$dataProvider.coverage" NAME="dataProvider Coverage Results" MODIFIED="1461484401998" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
-    <SUITE FILE_PATH="coverage/stockHelper$threadDayRiseList.coverage" NAME="threadDayRiseList Coverage Results" MODIFIED="1461984292831" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
-    <SUITE FILE_PATH="coverage/stockHelper$stockList.coverage" NAME="stockList Coverage Results" MODIFIED="1461078059693" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
-    <SUITE FILE_PATH="coverage/stockHelper$utils.coverage" NAME="utils Coverage Results" MODIFIED="1459570801559" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
-    <SUITE FILE_PATH="coverage/stockHelper$ff.coverage" NAME="ff Coverage Results" MODIFIED="1463150689250" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
-    <SUITE FILE_PATH="coverage/stockHelper$selectMACD.coverage" NAME="selectMACD Coverage Results" MODIFIED="1461242170619" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
-    <SUITE FILE_PATH="coverage/stockHelper$pyQtStudy.coverage" NAME="pyQtStudy Coverage Results" MODIFIED="1461417931513" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
-    <SUITE FILE_PATH="coverage/stockHelper$ds.coverage" NAME="ds Coverage Results" MODIFIED="1461421532947" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
+    <SUITE FILE_PATH="coverage/stockHelper$setting.coverage" NAME="setting Coverage Results" MODIFIED="1461418584428" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/gui" />
     <SUITE FILE_PATH="coverage/stockHelper$test.coverage" NAME="test Coverage Results" MODIFIED="1461076735360" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
+    <SUITE FILE_PATH="coverage/stockHelper$pyQtStudy.coverage" NAME="pyQtStudy Coverage Results" MODIFIED="1461417931513" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
+    <SUITE FILE_PATH="coverage/stockHelper$python.coverage" NAME="python Coverage Results" MODIFIED="1461469626751" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
+    <SUITE FILE_PATH="coverage/stockHelper$utils.coverage" NAME="utils Coverage Results" MODIFIED="1459570801559" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
+    <SUITE FILE_PATH="coverage/stockHelper$MainWindow.coverage" NAME="MainWindow Coverage Results" MODIFIED="1461469619988" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/gui" />
+    <SUITE FILE_PATH="coverage/stockHelper$ff.coverage" NAME="ff Coverage Results" MODIFIED="1463150689250" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
+    <SUITE FILE_PATH="coverage/stockHelper$UIPickup.coverage" NAME="UIPickup Coverage Results" MODIFIED="1463215480890" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
+    <SUITE FILE_PATH="coverage/stockHelper$Nosetests_in_draw.coverage" NAME="Nosetests in draw Coverage Results" MODIFIED="1461077068876" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
+    <SUITE FILE_PATH="coverage/stockHelper$dataProvider.coverage" NAME="dataProvider Coverage Results" MODIFIED="1461484401998" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
+    <SUITE FILE_PATH="coverage/stockHelper$Nosetests_in_stockHelper.coverage" NAME="Nosetests in stockHelper Coverage Results" MODIFIED="1461397005221" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/stockHelper$stockList.coverage" NAME="stockList Coverage Results" MODIFIED="1461078059693" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
+    <SUITE FILE_PATH="coverage/stockHelper$selectMACD.coverage" NAME="selectMACD Coverage Results" MODIFIED="1461242170619" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
+    <SUITE FILE_PATH="coverage/stockHelper$selectMACDDivergence.coverage" NAME="selectMACDDivergence Coverage Results" MODIFIED="1461329586587" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
+    <SUITE FILE_PATH="coverage/stockHelper$MainWindow__1_.coverage" NAME="MainWindow (1) Coverage Results" MODIFIED="1463232233481" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
+    <SUITE FILE_PATH="coverage/stockHelper$ds.coverage" NAME="ds Coverage Results" MODIFIED="1461421532947" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
+    <SUITE FILE_PATH="coverage/stockHelper$threadDayRiseList.coverage" NAME="threadDayRiseList Coverage Results" MODIFIED="1461984292831" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
     <SUITE FILE_PATH="coverage/stockHelper$dd.coverage" NAME="dd Coverage Results" MODIFIED="1461983933930" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
   </component>
   <component name="CreatePatchCommitExecutor">
@@ -56,21 +60,22 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="MainWindow.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="MainWindow.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/MainWindow.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="61" column="42" selection-start-line="61" selection-start-column="42" selection-end-line="61" selection-end-column="42" />
+            <state relative-caret-position="646">
+              <caret line="230" column="34" selection-start-line="230" selection-start-column="34" selection-end-line="230" selection-end-column="34" />
               <folding>
                 <element signature="e#14#24#0" expanded="true" />
-                <element signature="e#598#1859#0" expanded="false" />
-                <element signature="e#4775#5078#0" expanded="false" />
-                <element signature="e#5160#5937#0" expanded="false" />
-                <element signature="e#5997#6563#0" expanded="false" />
-                <element signature="e#8850#8906#0" expanded="false" />
-                <element signature="e#8965#9591#0" expanded="false" />
-                <element signature="e#9648#9812#0" expanded="false" />
-                <element signature="e#10336#11065#0" expanded="false" />
+                <element signature="e#616#1877#0" expanded="false" />
+                <element signature="e#5299#5602#0" expanded="false" />
+                <element signature="e#5931#6708#0" expanded="false" />
+                <element signature="e#6768#7334#0" expanded="false" />
+                <element signature="e#10002#10058#0" expanded="false" />
+                <element signature="e#10117#10743#0" expanded="false" />
+                <element signature="e#10800#10964#0" expanded="false" />
+                <element signature="e#11042#11447#0" expanded="false" />
+                <element signature="e#11488#12221#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -79,11 +84,13 @@
       <file leaf-file-name="strategy.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/strategy.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="96" column="51" selection-start-line="96" selection-start-column="51" selection-end-line="96" selection-end-column="51" />
+            <state relative-caret-position="684">
+              <caret line="46" column="18" selection-start-line="46" selection-start-column="18" selection-end-line="46" selection-end-column="18" />
               <folding>
                 <element signature="e#14#29#0" expanded="true" />
-                <element signature="e#2040#3075#0" expanded="false" />
+                <element signature="e#2119#2168#0" expanded="false" />
+                <element signature="e#2902#3937#0" expanded="false" />
+                <element signature="e#4001#4867#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -92,21 +99,9 @@
       <file leaf-file-name="Setting.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Setting.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="19" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="25" selection-end-column="0" />
+            <state relative-caret-position="437">
+              <caret line="25" column="0" selection-start-line="25" selection-start-column="0" selection-end-line="25" selection-end-column="0" />
               <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="UIPickup.py" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/UIPickup.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.8193344">
-              <caret line="38" column="24" selection-start-line="38" selection-start-column="24" selection-end-line="38" selection-end-column="24" />
-              <folding>
-                <element signature="e#15#25#0" expanded="true" />
-              </folding>
             </state>
           </provider>
         </entry>
@@ -114,8 +109,8 @@
       <file leaf-file-name="threadWorker.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/threadWorker.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="83" column="29" selection-start-line="83" selection-start-column="24" selection-end-line="83" selection-end-column="29" />
+            <state relative-caret-position="-475">
+              <caret line="54" column="29" selection-start-line="54" selection-start-column="29" selection-end-line="54" selection-end-column="29" />
               <folding>
                 <element signature="e#16#40#0" expanded="true" />
               </folding>
@@ -126,12 +121,11 @@
       <file leaf-file-name="dataProvider.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/dataProvider.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="80" column="105" selection-start-line="80" selection-start-column="88" selection-end-line="80" selection-end-column="105" />
+            <state relative-caret-position="439">
+              <caret line="104" column="16" selection-start-line="104" selection-start-column="16" selection-end-line="104" selection-end-column="16" />
               <folding>
                 <element signature="e#14#23#0" expanded="true" />
                 <element signature="e#651#2222#0" expanded="false" />
-                <element signature="e#2870#4166#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -140,7 +134,7 @@
       <file leaf-file-name="utils.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/utils.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
+            <state relative-caret-position="665">
               <caret line="71" column="0" selection-start-line="71" selection-start-column="0" selection-end-line="71" selection-end-column="0" />
               <folding>
                 <element signature="e#999#2007#0" expanded="false" />
@@ -193,18 +187,19 @@
         <option value="$PROJECT_DIR$/src/config.json" />
         <option value="$PROJECT_DIR$/src/utils.py" />
         <option value="$PROJECT_DIR$/src/dataProvider.py" />
-        <option value="$PROJECT_DIR$/src/threadWorker.py" />
-        <option value="$PROJECT_DIR$/src/strategy.py" />
-        <option value="$PROJECT_DIR$/src/MainWindow.py" />
         <option value="$PROJECT_DIR$/src/ff.py" />
         <option value="$PROJECT_DIR$/src/UIPickup.py" />
+        <option value="$PROJECT_DIR$/src/MainWindow.py" />
+        <option value="$PROJECT_DIR$/src/threadWorker.py" />
+        <option value="$PROJECT_DIR$/src/strategy.py" />
       </list>
     </option>
   </component>
-  <component name="JsBuildToolGruntFileManager" detection-done="true" />
-  <component name="JsBuildToolPackageJson" detection-done="true" />
+  <component name="JsBuildToolGruntFileManager" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsBuildToolPackageJson" detection-done="true" sorting="DEFINITION_ORDER" />
   <component name="JsGulpfileManager">
     <detection-done>true</detection-done>
+    <sorting>DEFINITION_ORDER</sorting>
   </component>
   <component name="ProjectFrameBounds">
     <option name="x" value="-4" />
@@ -256,7 +251,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scratches" />
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -305,7 +300,7 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
+      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -340,7 +335,7 @@
       <recent name="E:\active_project\python_project\stockHelper\src" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.UIPickup">
+  <component name="RunManager" selected="Python.MainWindow (1)">
     <configuration default="false" name="MainWindow (1)" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -500,7 +495,21 @@
       <option name="SHOW_COMMAND_LINE" value="false" />
       <method />
     </configuration>
+    <configuration default="true" type="Tox" factoryName="Tox">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <module name="stockHelper" />
+      <method />
+    </configuration>
     <configuration default="true" type="js.build_tools.gulp" factoryName="Gulp.js">
+      <node-interpreter>project</node-interpreter>
       <node-options />
       <gulpfile />
       <tasks />
@@ -511,6 +520,7 @@
     <configuration default="true" type="js.build_tools.npm" factoryName="npm">
       <command value="run-script" />
       <scripts />
+      <node-interpreter value="project" />
       <envs />
       <method />
     </configuration>
@@ -652,15 +662,17 @@
     </list>
     <recent_temporary>
       <list size="5">
-        <item index="0" class="java.lang.String" itemvalue="Python.UIPickup" />
-        <item index="1" class="java.lang.String" itemvalue="Python.ff" />
-        <item index="2" class="java.lang.String" itemvalue="Python.MainWindow (1)" />
+        <item index="0" class="java.lang.String" itemvalue="Python.MainWindow (1)" />
+        <item index="1" class="java.lang.String" itemvalue="Python.UIPickup" />
+        <item index="2" class="java.lang.String" itemvalue="Python.ff" />
         <item index="3" class="java.lang.String" itemvalue="Python.threadDayRiseList" />
         <item index="4" class="java.lang.String" itemvalue="Python.dd" />
       </list>
     </recent_temporary>
   </component>
-  <component name="ShelveChangesManager" show_recycled="false" />
+  <component name="ShelveChangesManager" show_recycled="false">
+    <option name="remove_strategy" value="false" />
+  </component>
   <component name="SvnConfiguration">
     <configuration />
   </component>
@@ -669,17 +681,20 @@
       <changelist id="5ceaba64-58ba-4147-9df5-6ffecbe6d368" name="Default" comment="" />
       <created>1458219731113</created>
       <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
       <updated>1458219731113</updated>
     </task>
     <task id="LOCAL-00001" summary="完成界面的大部分控件显示。">
       <created>1461421626448</created>
       <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
       <option name="project" value="LOCAL" />
       <updated>1461421626448</updated>
     </task>
     <task id="LOCAL-00002" summary="完成界面的大部分控件显示。">
       <created>1461422006451</created>
       <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
       <option name="project" value="LOCAL" />
       <updated>1461422006451</updated>
     </task>
@@ -707,29 +722,50 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-4" y="-4" width="1928" height="1044" extended-state="0" />
+    <frame x="-4" y="-4" width="1928" height="1044" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.171459" sideWeight="0.65753424" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.17305644" sideWeight="0.67480916" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32901832" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.28108108" sideWeight="0.442492" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32960597" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3264865" sideWeight="0.49574015" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32824427" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.23783784" sideWeight="0.48935038" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.22761597" sideWeight="0.46166134" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.171459" sideWeight="0.34246576" order="1" side_tool="true" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.17305644" sideWeight="0.32519084" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3279396" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.29126215" sideWeight="0.557508" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2918919" sideWeight="0.557508" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32972974" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24973376" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32686085" sideWeight="0.49574015" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
+    <layout-to-restore>
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32901832" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32972974" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.28108108" sideWeight="0.442492" order="8" side_tool="true" content_ui="tabs" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32824427" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.23783784" sideWeight="0.48935038" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.22761597" sideWeight="0.46166134" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3279396" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.17305644" sideWeight="0.67480916" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24973376" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32960597" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3264865" sideWeight="0.49574015" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.17305644" sideWeight="0.32519084" order="1" side_tool="true" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2918919" sideWeight="0.557508" order="3" side_tool="false" content_ui="tabs" />
+    </layout-to-restore>
   </component>
   <component name="Vcs.Log.UiProperties">
     <option name="RECENTLY_FILTERED_USER_GROUPS">
@@ -757,6 +793,11 @@
           <line>120</line>
           <option name="timeStamp" value="66" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" type="python-line">
+          <url>file://$PROJECT_DIR$/src/threadWorker.py</url>
+          <line>96</line>
+          <option name="timeStamp" value="300" />
+        </line-breakpoint>
       </breakpoints>
       <default-breakpoints>
         <breakpoint type="python-exception">
@@ -765,7 +806,7 @@
           </properties>
         </breakpoint>
       </default-breakpoints>
-      <option name="time" value="293" />
+      <option name="time" value="302" />
     </breakpoint-manager>
     <watches-manager>
       <configuration name="PythonConfigurationType">
@@ -774,297 +815,284 @@
     </watches-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://D:/Program Files (x86)/Anaconda/Lib/site-packages/tushare/stock/trading.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="82" column="12" selection-start-line="82" selection-start-column="12" selection-end-line="82" selection-end-column="12" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://D:/Program Files (x86)/Anaconda/Lib/multiprocessing/pool.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
+        <state relative-caret-position="0">
           <caret line="566" column="0" selection-start-line="566" selection-start-column="0" selection-end-line="566" selection-end-column="0" />
         </state>
       </provider>
     </entry>
     <entry file="file://D:/Program Files (x86)/Anaconda/Lib/site-packages/tushare/stock/trading.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
+        <state relative-caret-position="0">
           <caret line="82" column="12" selection-start-line="82" selection-start-column="12" selection-end-line="82" selection-end-column="12" />
         </state>
       </provider>
     </entry>
     <entry file="file://D:/Program Files (x86)/Anaconda/Lib/site-packages/tushare/stock/trading.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
+        <state relative-caret-position="0">
           <caret line="82" column="12" selection-start-line="82" selection-start-column="12" selection-end-line="82" selection-end-column="12" />
         </state>
       </provider>
     </entry>
     <entry file="file://D:/Program Files (x86)/Anaconda/Lib/site-packages/tushare/stock/trading.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
+        <state relative-caret-position="0">
           <caret line="82" column="12" selection-start-line="82" selection-start-column="12" selection-end-line="82" selection-end-column="12" />
         </state>
       </provider>
     </entry>
     <entry file="file://D:/Program Files (x86)/Anaconda/Lib/site-packages/tushare/stock/trading.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
+        <state relative-caret-position="0">
           <caret line="82" column="12" selection-start-line="82" selection-start-column="12" selection-end-line="82" selection-end-column="12" />
         </state>
       </provider>
     </entry>
     <entry file="file://D:/Program Files (x86)/Anaconda/Lib/site-packages/pyqtgraph/__init__.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.91260165">
+        <state relative-caret-position="0">
           <caret line="363" column="4" selection-start-line="363" selection-start-column="4" selection-end-line="363" selection-end-column="8" />
         </state>
       </provider>
     </entry>
     <entry file="file://D:/Program Files (x86)/Anaconda/Lib/multiprocessing/process.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
+        <state relative-caret-position="0">
           <caret line="113" column="0" selection-start-line="113" selection-start-column="0" selection-end-line="113" selection-end-column="0" />
         </state>
       </provider>
     </entry>
     <entry file="file://D:/Program Files (x86)/Anaconda/Lib/multiprocessing/forking.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
+        <state relative-caret-position="0">
           <caret line="385" column="0" selection-start-line="385" selection-start-column="0" selection-end-line="385" selection-end-column="0" />
         </state>
       </provider>
     </entry>
     <entry file="file://D:/Program Files (x86)/Anaconda/Lib/multiprocessing/pool.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
+        <state relative-caret-position="0">
           <caret line="566" column="0" selection-start-line="566" selection-start-column="0" selection-end-line="566" selection-end-column="0" />
         </state>
       </provider>
     </entry>
     <entry file="file://D:/Program Files (x86)/Anaconda/Lib/_strptime.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
+        <state relative-caret-position="0">
           <caret line="297" column="0" selection-start-line="297" selection-start-column="0" selection-end-line="297" selection-end-column="0" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/__init__.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
+        <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
       </provider>
     </entry>
     <entry file="file://D:/Program Files (x86)/Anaconda/Lib/json/__init__.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.40257353">
+        <state relative-caret-position="0">
           <caret line="194" column="16" selection-start-line="194" selection-start-column="8" selection-end-line="194" selection-end-column="16" />
         </state>
       </provider>
     </entry>
     <entry file="file://D:/Program Files (x86)/Anaconda/Lib/site-packages/PyQt4/uic/Loader/qobjectcreator.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.68386024">
+        <state relative-caret-position="0">
           <caret line="140" column="0" selection-start-line="140" selection-start-column="0" selection-end-line="140" selection-end-column="0" />
         </state>
       </provider>
     </entry>
     <entry file="file://D:/Program Files (x86)/Anaconda/Lib/site-packages/pandas/core/base.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
+        <state relative-caret-position="0">
           <caret line="42" column="0" selection-start-line="42" selection-start-column="0" selection-end-line="42" selection-end-column="0" />
         </state>
       </provider>
     </entry>
     <entry file="file://D:/Program Files (x86)/Anaconda/Lib/site-packages/pandas/core/common.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
+        <state relative-caret-position="0">
           <caret line="156" column="0" selection-start-line="156" selection-start-column="0" selection-end-line="156" selection-end-column="0" />
         </state>
       </provider>
     </entry>
     <entry file="file://D:/Program Files (x86)/Anaconda/Lib/site-packages/pandas/core/index.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
+        <state relative-caret-position="0">
           <caret line="6070" column="0" selection-start-line="6070" selection-start-column="0" selection-end-line="6070" selection-end-column="0" />
         </state>
       </provider>
     </entry>
     <entry file="file://D:/Program Files (x86)/Anaconda/Lib/site-packages/pandas/core/internals.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
+        <state relative-caret-position="0">
           <caret line="3830" column="0" selection-start-line="3830" selection-start-column="0" selection-end-line="3830" selection-end-column="0" />
         </state>
       </provider>
     </entry>
     <entry file="file://D:/Program Files (x86)/Anaconda/Lib/site-packages/pandas/core/series.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
+        <state relative-caret-position="0">
           <caret line="349" column="0" selection-start-line="349" selection-start-column="0" selection-end-line="349" selection-end-column="0" />
         </state>
       </provider>
     </entry>
     <entry file="file://D:/Program Files (x86)/Anaconda/Lib/site-packages/pandas/core/indexing.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.33279222">
+        <state relative-caret-position="0">
           <caret line="125" column="0" selection-start-line="125" selection-start-column="0" selection-end-line="125" selection-end-column="0" />
         </state>
       </provider>
     </entry>
     <entry file="file://$APPLICATION_HOME_DIR$/helpers/pydev/pydevd.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.6298701">
+        <state relative-caret-position="0">
           <caret line="2410" column="0" selection-start-line="2410" selection-start-column="0" selection-end-line="2410" selection-end-column="0" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/README.md">
-      <provider editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.2761628">
-          <caret line="10" column="22" selection-start-line="10" selection-start-column="22" selection-end-line="10" selection-end-column="22" />
-        </state>
-      </provider>
       <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
         <state split_layout="SPLIT">
-          <first_editor vertical-scroll-proportion="0.4342857">
+          <first_editor relative-caret-position="0">
             <caret line="20" column="0" selection-start-line="16" selection-start-column="0" selection-end-line="20" selection-end-column="0" />
           </first_editor>
           <second_editor />
         </state>
       </provider>
+      <provider editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="10" column="22" selection-start-line="10" selection-start-column="22" selection-end-line="10" selection-end-column="22" />
+        </state>
+      </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/mainRes.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
+        <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
       </provider>
     </entry>
     <entry file="file://D:/Program Files (x86)/Anaconda/Lib/site-packages/pandas/core/generic.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
+        <state relative-caret-position="0">
           <caret line="2359" column="0" selection-start-line="2359" selection-start-column="0" selection-end-line="2359" selection-end-column="0" />
         </state>
       </provider>
     </entry>
     <entry file="file://D:/Program Files (x86)/Anaconda/Lib/site-packages/tushare/stock/fundamental.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0741301">
+        <state relative-caret-position="0">
           <caret line="19" column="4" selection-start-line="19" selection-start-column="4" selection-end-line="19" selection-end-column="4" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$APPLICATION_HOME_DIR$/helpers/pydev/pydev_monkey_qt.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="138" column="0" selection-start-line="138" selection-start-column="0" selection-end-line="138" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$APPLICATION_HOME_DIR$/helpers/pydev/pydev_monkey_qt.py" />
     <entry file="file://$USER_HOME$/.PyCharm50/system/python_stubs/1567202546/talib/func.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.3321617">
+        <state relative-caret-position="0">
           <caret line="1426" column="4" selection-start-line="1426" selection-start-column="4" selection-end-line="1426" selection-end-column="4" />
         </state>
       </provider>
     </entry>
     <entry file="file://$USER_HOME$/.PyCharm50/system/python_stubs/1567202546/PyQt4/QtCore/QThread.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="1.7828844">
+        <state relative-caret-position="0">
           <caret line="134" column="8" selection-start-line="134" selection-start-column="8" selection-end-line="134" selection-end-column="16" />
         </state>
       </provider>
     </entry>
     <entry file="file://D:/Program Files (x86)/Anaconda/Lib/site-packages/pandas/core/frame.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.33280507">
+        <state relative-caret-position="0">
           <caret line="1915" column="0" selection-start-line="1915" selection-start-column="0" selection-end-line="1915" selection-end-column="0" />
         </state>
       </provider>
     </entry>
     <entry file="file://D:/Program Files (x86)/Anaconda/Lib/httplib.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
+        <state relative-caret-position="0">
           <caret line="833" column="0" selection-start-line="833" selection-start-column="0" selection-end-line="833" selection-end-column="0" />
         </state>
       </provider>
     </entry>
     <entry file="file://D:/Program Files (x86)/Anaconda/Lib/site-packages/tushare/stock/trading.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
+        <state relative-caret-position="0">
           <caret line="129" column="13" selection-start-line="129" selection-start-column="13" selection-end-line="129" selection-end-column="13" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/datas/2016-05-04_Datas.csv">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
+        <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/datas/2016-05-03_Datas.csv">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
+        <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/datas/2016-05-02_Datas.csv">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
+        <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/datas/2016-04-29_Datas.csv">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.030110935">
+        <state relative-caret-position="0">
           <caret line="8" column="66" selection-start-line="8" selection-start-column="66" selection-end-line="8" selection-end-column="66" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/datas/2016-04-28_Datas.csv">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
+        <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/datas/2016-04-27_Datas.csv">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
+        <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/config.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
+        <state relative-caret-position="0">
           <caret line="0" column="18" selection-start-line="0" selection-start-column="18" selection-end-line="0" selection-end-column="18" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/pickup/select_macd2016-05-04.txt">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
+        <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/pickup/select_macd2016-05-02.txt">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
+        <state relative-caret-position="0">
           <caret line="0" column="46" selection-start-line="0" selection-start-column="46" selection-end-line="0" selection-end-column="46" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/utils.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
+        <state relative-caret-position="665">
           <caret line="71" column="0" selection-start-line="71" selection-start-column="0" selection-end-line="71" selection-end-column="0" />
           <folding>
             <element signature="e#999#2007#0" expanded="false" />
@@ -1072,44 +1100,74 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/dataProvider.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="80" column="105" selection-start-line="80" selection-start-column="88" selection-end-line="80" selection-end-column="105" />
-          <folding>
-            <element signature="e#14#23#0" expanded="true" />
-            <element signature="e#651#2222#0" expanded="false" />
-            <element signature="e#2870#4166#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/pickup/macdCross_2016-05-06.csv">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.56936735">
+        <state relative-caret-position="0">
           <caret line="27" column="0" selection-start-line="27" selection-start-column="0" selection-end-line="27" selection-end-column="0" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/settingRes.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.02108768">
+        <state relative-caret-position="0">
           <caret line="11" column="39" selection-start-line="11" selection-start-column="39" selection-end-line="11" selection-end-column="39" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/.PyCharm50/system/python_stubs/1567202546/PyQt4/QtCore/QObject.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="24" column="8" selection-start-line="24" selection-start-column="8" selection-end-line="24" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/UIPickup.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="266">
+          <caret line="14" column="8" selection-start-line="0" selection-start-column="0" selection-end-line="54" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Setting.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="19" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="25" selection-end-column="0" />
+        <state relative-caret-position="437">
+          <caret line="25" column="0" selection-start-line="25" selection-start-column="0" selection-end-line="25" selection-end-column="0" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/.PyCharm2016.1/system/python_stubs/1567202546/talib/func.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="209">
+          <caret line="1943" column="4" selection-start-line="1943" selection-start-column="4" selection-end-line="1943" selection-end-column="4" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$APPLICATION_HOME_DIR$/helpers/pydev/_pydev_bundle/pydev_monkey_qt.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="209">
+          <caret line="138" column="0" selection-start-line="138" selection-start-column="0" selection-end-line="138" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/dataProvider.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="439">
+          <caret line="104" column="16" selection-start-line="104" selection-start-column="16" selection-end-line="104" selection-end-column="16" />
+          <folding>
+            <element signature="e#14#23#0" expanded="true" />
+            <element signature="e#651#2222#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/threadWorker.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="83" column="29" selection-start-line="83" selection-start-column="24" selection-end-line="83" selection-end-column="29" />
+        <state relative-caret-position="-475">
+          <caret line="54" column="29" selection-start-line="54" selection-start-column="29" selection-end-line="54" selection-end-column="29" />
           <folding>
             <element signature="e#16#40#0" expanded="true" />
           </folding>
@@ -1118,47 +1176,32 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/strategy.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="96" column="51" selection-start-line="96" selection-start-column="51" selection-end-line="96" selection-end-column="51" />
+        <state relative-caret-position="684">
+          <caret line="46" column="18" selection-start-line="46" selection-start-column="18" selection-end-line="46" selection-end-column="18" />
           <folding>
             <element signature="e#14#29#0" expanded="true" />
-            <element signature="e#2040#3075#0" expanded="false" />
+            <element signature="e#2119#2168#0" expanded="false" />
+            <element signature="e#2902#3937#0" expanded="false" />
+            <element signature="e#4001#4867#0" expanded="false" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/.PyCharm50/system/python_stubs/1567202546/PyQt4/QtCore/QObject.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.33280507">
-          <caret line="24" column="8" selection-start-line="24" selection-start-column="8" selection-end-line="24" selection-end-column="8" />
-          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/MainWindow.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="61" column="42" selection-start-line="61" selection-start-column="42" selection-end-line="61" selection-end-column="42" />
+        <state relative-caret-position="646">
+          <caret line="230" column="34" selection-start-line="230" selection-start-column="34" selection-end-line="230" selection-end-column="34" />
           <folding>
             <element signature="e#14#24#0" expanded="true" />
-            <element signature="e#598#1859#0" expanded="false" />
-            <element signature="e#4775#5078#0" expanded="false" />
-            <element signature="e#5160#5937#0" expanded="false" />
-            <element signature="e#5997#6563#0" expanded="false" />
-            <element signature="e#8850#8906#0" expanded="false" />
-            <element signature="e#8965#9591#0" expanded="false" />
-            <element signature="e#9648#9812#0" expanded="false" />
-            <element signature="e#10336#11065#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/UIPickup.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.8193344">
-          <caret line="38" column="24" selection-start-line="38" selection-start-column="24" selection-end-line="38" selection-end-column="24" />
-          <folding>
-            <element signature="e#15#25#0" expanded="true" />
+            <element signature="e#616#1877#0" expanded="false" />
+            <element signature="e#5299#5602#0" expanded="false" />
+            <element signature="e#5931#6708#0" expanded="false" />
+            <element signature="e#6768#7334#0" expanded="false" />
+            <element signature="e#10002#10058#0" expanded="false" />
+            <element signature="e#10117#10743#0" expanded="false" />
+            <element signature="e#10800#10964#0" expanded="false" />
+            <element signature="e#11042#11447#0" expanded="false" />
+            <element signature="e#11488#12221#0" expanded="false" />
           </folding>
         </state>
       </provider>

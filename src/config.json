@@ -1,1 +1,1 @@
-{"macdCross": 1, "macdDivergence": 0, "useTdx": 0, "tdxDataPath": "E:\\data\\tdxpre", "savePickup": 1}
+{"macdCross": 1, "macd_divergence": 0, "macd_cross": 0, "macdDivergence": 0, "savePickup": 1, "useTdx": 0, "tdxDataPath": "E:\\data\\tdxpre"}

@@ -4,7 +4,7 @@ from PyQt4 import QtCore
 from PyQt4.QtCore import pyqtSignal, pyqtSlot
 
 # 工作线程类型，用于统一处理返回信息时做判断
-from src.strategy import strategy_macdCross, strategy_macdDiverse
+from src.strategy import strategy_macdCross, strategy_macdDiverse, strategy_maCross
 
 workerTypeDayRise = 1
 workerTypePickup = 2
@@ -40,13 +40,14 @@ class WorkerPickup(QtCore.QObject):
     progressRange = pyqtSignal(int)
     progressStep = QtCore.pyqtSignal(int, name="changed")
 
-    def __init__(self, tradeDate, codeList, klineType, dataProvider, strategyFilter, strategy, parent=None):
+    def __init__(self, tradeDate, codeList, klineType, dataProvider, strategyFilter, strategy, param, parent=None):
         """
         :param tradeDate:  交易日期
         :param codeList:  代码列表
         :param klineType: K线周期，[u'30分钟', u'60分钟', u'日线', u'周线', u'月线']
         :param strategyFilter:  选股策略过滤器
         :param parent: 
+        :param param: maCross:ma1,ma2
         :return: 
         """
         super(WorkerPickup, self).__init__(parent)
@@ -58,6 +59,7 @@ class WorkerPickup(QtCore.QObject):
         self.strategyFilter = strategyFilter
         self.strategy = strategy
         self.pickup = []
+        self.param = param
 
 
     @pyqtSlot()
@@ -75,12 +77,17 @@ class WorkerPickup(QtCore.QObject):
             bingo = False
             for st in self.strategyFilter:
                 if st == strategy_macdCross:
-                    if self.strategy.macdCross(code, self.tradeDate, self.klineType):
+                    if self.strategy.macd_cross(code, self.tradeDate, self.klineType):
                         bingo = True
                     else:
                         continue
                 elif st == strategy_macdDiverse:
-                    if self.strategy.macdDivergence(code, self.tradeDate, self.klineType):
+                    if self.strategy.macd_divergence(code, self.tradeDate, self.klineType):
+                        bingo = True
+                    else:
+                        continue
+                elif st == strategy_maCross:
+                    if self.strategy.ma_cross(code, self.tradeDate, self.klineType, self.param):
                         bingo = True
                     else:
                         continue

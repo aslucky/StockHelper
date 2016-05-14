@@ -13,7 +13,7 @@ from PyQt4.QtGui import QMessageBox
 from dataProvider import DataProvider
 from mainRes import Ui_MainWindow
 from src import threadWorker
-from src.strategy import Strategy, strategy_macdCross, strategy_macdDiverse
+from src.strategy import Strategy, strategy_macdCross, strategy_macdDiverse, strategy_maCross
 from src.threadWorker import WorkerDayRiseList, workerTypeDayRise, workerTypePickup, WorkerPickup
 from utils import cur_file_path, get_legal_trade_date
 
@@ -78,6 +78,8 @@ class MainWindow(QtGui.QMainWindow, Ui_MainWindow):
         self.strategy = Strategy(self.dataProvider)
         # 选出来的股票信息 = pickupHeader
         self.codePickup = [[]]
+        # 选股条件的参数列表
+        self.param = []
         # 股票代码列表
         self.codeList = []
         self.workerDayRiseList = WorkerDayRiseList(self.dataProvider)
@@ -91,6 +93,16 @@ class MainWindow(QtGui.QMainWindow, Ui_MainWindow):
         if not os.path.exists(self.appPath + '/pickup'):
             os.mkdir(self.appPath + '/pickup')
 
+        # 选股页面设置
+        self.comboBox_maCondition.addItems([u'金叉', u'死叉', u'多头排列'])
+        self.comboBox_period.addItems([u'日线', u'周线'])
+        self.comboBox_ma1.addItems(['25', '43', '120', '250'])
+        self.comboBox_ma2.addItems(['25', '43', '120', '250'])
+        list_data = ['MA', "MACD"]
+        self.listWidget_condition.addItems(list_data)
+        self.listWidget_condition.currentItemChanged.connect(self.on_item_changed)
+
+        # 涨幅排行榜页面设置
         tabledata = [['', '', '', '', '', '', '', '', '', '']]
         # set the table model
         self.header = [u'序号', u'代码', u'名称', u'涨跌幅', u'现价', u'开盘价', u'最高价', u'最低价', u'昨日收盘价', u'成交量', u'换手率']
@@ -108,9 +120,9 @@ class MainWindow(QtGui.QMainWindow, Ui_MainWindow):
                 self.configData = json.load(f)
         if 'useTdx' in self.configData and self.configData['useTdx'] is 1:
             self.checkBox_useTDXdata.toggle()
-        if 'macdCross' in self.configData and self.configData['macdCross'] is 1:
+        if 'macd_cross' in self.configData and self.configData['macd_cross'] is 1:
             self.checkBox_macdCross.toggle()
-        if 'macdDivergence' in self.configData and self.configData['macdDivergence'] is 1:
+        if 'macd_divergence' in self.configData and self.configData['macd_divergence'] is 1:
             self.checkBox_macdDivergence.toggle()
         if 'savePickup' in self.configData and self.configData['savePickup'] is 1:
             self.checkBox_savePickup.toggle()
@@ -130,6 +142,12 @@ class MainWindow(QtGui.QMainWindow, Ui_MainWindow):
             self.pb_select.setEnabled(True)
             self.pb_dayRise.setEnabled(True)
             self.pb_setting.setEnabled(True)
+
+    def on_item_changed(self, current, previous):
+        if current.text() == "MA":
+            self.stackedWidget_pickupCond.setCurrentIndex(0)
+        elif current.text() == "MACD":
+            self.stackedWidget_pickupCond.setCurrentIndex(1)
 
     @QtCore.pyqtSlot()
     def work_finished(self, worker_type, datas):
@@ -172,7 +190,7 @@ class MainWindow(QtGui.QMainWindow, Ui_MainWindow):
 
     @QtCore.pyqtSlot()
     def do_select(self):
-        print('object do_select thread id: {}'.format(QtCore.QThread.currentThreadId()))
+        # print('object do_select thread id: {}'.format(QtCore.QThread.currentThreadId()))
         threadWorker.workerStop = False
         self.save_gui_config()
         self.enable_ui(0)
@@ -196,15 +214,21 @@ class MainWindow(QtGui.QMainWindow, Ui_MainWindow):
         self.progressBar.setRange(0, len(self.codeList))
         self.progressBar.show()
 
-        # 涨幅排行榜线程
+        # 根据选股条件设置
         strategyFilter = []
-        if self.checkBox_macdCross.isChecked():
-            strategyFilter.append(strategy_macdCross)
-        if self.checkBox_macdDivergence.isChecked():
-            strategyFilter.append(strategy_macdDiverse)
+        self.param = []
+        if self.listWidget_condition.currentItem().text() == "MA":
+            strategyFilter.append(strategy_maCross)
+            self.param.append(str(self.comboBox_ma1.currentText()))
+            self.param.append(str(self.comboBox_ma2.currentText()))
+        elif self.listWidget_condition.currentItem().text() == "MACD":
+            if self.checkBox_macdCross.isChecked():
+                strategyFilter.append(strategy_macdCross)
+            if self.checkBox_macdDivergence.isChecked():
+                strategyFilter.append(strategy_macdDiverse)
 
         self.workerThread.start()
-        self.workerPickup = WorkerPickup(self.tradeDate, self.codeList, self.kelineType[self.comboBox_klineType.currentIndex()], self.dataProvider, strategyFilter, self.strategy)
+        self.workerPickup = WorkerPickup(self.tradeDate, self.codeList, self.kelineType[self.comboBox_klineType.currentIndex()], self.dataProvider, strategyFilter, self.strategy, self.param)
         self.workerPickup.moveToThread(self.workerThread)
         self.connect(self.workerPickup, QtCore.SIGNAL('work_finished'), self.work_finished)
         self.connect(self.workerPickup, QtCore.SIGNAL('updatePickup'), self.do_update_pickup)
@@ -263,13 +287,13 @@ class MainWindow(QtGui.QMainWindow, Ui_MainWindow):
         else:
             self.configData['useTdx'] = 0
         if self.checkBox_macdCross.isChecked():
-            self.configData['macdCross'] = 1
+            self.configData['macd_cross'] = 1
         else:
-            self.configData['macdCross'] = 0
+            self.configData['macd_cross'] = 0
         if self.checkBox_macdDivergence.isChecked():
-            self.configData['macdDivergence'] = 1
+            self.configData['macd_divergence'] = 1
         else:
-            self.configData['macdDivergence'] = 0
+            self.configData['macd_divergence'] = 0
         if self.checkBox_savePickup.isChecked():
             self.configData['savePickup'] = 1
         else:

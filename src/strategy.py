@@ -2,9 +2,11 @@
 import datetime
 import pandas as pd
 import talib as ta
+import numpy as np
 
 strategy_macdCross = 1
 strategy_macdDiverse = 2
+strategy_maCross = 3
 
 
 class Strategy:
@@ -15,7 +17,32 @@ class Strategy:
     def __init__(self, dataProvider):
         self.dataProvider = dataProvider
 
-    def macdCross(self, code, date, klineType):
+    def ma_cross(self, code, date, klineType, param):
+        """
+        均线ma1金叉ma2选股
+        :param code: 
+        :param date: 
+        :param klineType: 
+        :param param: ma1, ma2  
+        :return: 
+        """
+        klines = self.dataProvider.get_data_by_count(code, date, int(param[1]) + 10, klineType)
+        if len(klines) < int(param[1]):
+            # 股票交易天数不足
+            return
+        sma1 = ta.SMA(klines['close'].values, int(param[0]))
+        sma1 = sma1[~np.isnan(sma1)]
+        sma2 = ta.SMA(klines['close'].values, int(param[1]))
+        sma2 = sma2[~np.isnan(sma2)]
+        if not sma1 or not sma2:
+            return False
+        # print sma1[-1], sma2[-1] , sma1[-2], sma2[-2]
+        if sma1[-1] > sma2[-1] and sma1[-2] < sma2[-2]:
+            return True
+        else:
+            return False
+
+    def macd_cross(self, code, date, klineType):
         """
         是否符合macd金叉
         :param klines: 股票数据
@@ -38,7 +65,7 @@ class Strategy:
         dataLength = len(analysis)
         if not analysis.empty and analysis.iloc[dataLength - 1, 0] > analysis.iloc[dataLength - 1, 1] and analysis.iloc[dataLength - 2, 0] < analysis.iloc[dataLength - 2, 1]:
             return True
-        
+
         # analysis = analysis.sort_index(ascending=False)
         # # print analysis
         # '''
@@ -83,7 +110,7 @@ class Strategy:
         result.append(minMacd.ix[2])
         return result
 
-    def macdDivergence(self, code, date, klineType):
+    def macd_divergence(self, code, date, klineType):
         """
        macd底背离， 股价出现阶段性低点，macd柱出现阶段性高点
        :param kline_type: 'D' day,
